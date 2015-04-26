@@ -1,0 +1,31 @@
+﻿@-ms-viewport {
+	width:device-width;
+}
+
+body, html {
+	font-size:1em;
+	margin:0;
+	overflow:hidden;
+	-ms-content-zooming:none;
+	padding:0;
+}
+
+body, .ui-body-a {
+	background:#fff;
+	font-size:60px;
+}
+
+#field {
+	background:lime;
+	color:#000000;
+	cursor:default;
+	left:0;
+	pointer-events:none;
+	-ms-touch-action:none;
+	position:absolute;
+	text-shadow:none;
+	top:0;
+	width:10em;
+	height:10em;
+	z-index:1;
+}
