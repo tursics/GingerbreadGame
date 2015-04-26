@@ -8,8 +8,8 @@ CInit = new function()
 	this.eventReady = function()
 	{
 		try {
-			MyMap.eventReady();
-			MyPlayer.eventReady();
+			MyField.eventReady();
+//			MyPlayer.eventReady();
 		} catch( e) { if( CConfig.debug) { alert( e); } }
 	};
 
@@ -17,8 +17,8 @@ CInit = new function()
 	this.eventResize = function()
 	{
 		try {
-			MyMap.eventResize();
-			MyPlayer.eventResize();
+			MyField.eventResize();
+//			MyPlayer.eventResize();
 		} catch( e) { if( CConfig.debug) { alert( e); } }
 	};
 
