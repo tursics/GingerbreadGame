@@ -66,21 +66,12 @@ CConfig = new function()
 };
 
 //----------------------------
-
+/*
 $( document).ready( function()
 {
 	CConfig.init();
 
 	try {
-/*		if( CConfig.platform == CConfig.os.windowsPhone) {
-			var msViewportStyle = document.createElement( "style");
-
-			msViewportStyle.appendChild( document.createTextNode( "@-ms-viewport{width:auto!important}"));
-
-			document.getElementsByTagName( "head")[0].appendChild( msViewportStyle);
-
-		}*/
-
 		CInternationalization.init();
 
 		if( CConfig.screenshot) {
@@ -94,23 +85,36 @@ $( document).ready( function()
 		CInit.eventReady();
 	} catch( e) { if( CConfig.debug) { alert( e); } }
 });
+*/
+window.onload = function()
+{
+	var game = new Phaser.Game( 800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+
+	function preload () {
+		game.load.image( 'logo', 'art/phaser.png');
+	}
+
+	function create () {
+		var logo = game.add.sprite( game.world.centerX, game.world.centerY, 'logo');
+		logo.anchor.setTo( 0.5, 0.5);
+	}
+};
 
 //----------------------------
-
+/*
 $( document).bind( "mobileinit", function() {
 	$.support.cors = true;
 	$.mobile.allowCrossDomainPages = true;
-//	$.mobile.listview.prototype.options.filterPlaceholder = _( 'searchPlaceholder');
 });
-
+*/
 //----------------------------
-
+/*
 function eventResize()
 {
 	try {
 		CInit.eventResize();
 	} catch( e) { if( CConfig.debug) { alert( e); } }
 }
-
+*/
 //----------------------------
 // eof
