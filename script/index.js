@@ -88,15 +88,24 @@ $( document).ready( function()
 */
 window.onload = function()
 {
-	var game = new Phaser.Game( 800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+	CConfig.init();
 
-	function preload () {
-		game.load.image( 'logo', 'art/phaser.png');
-	}
+	try {
+		CInternationalization.init();
 
-	function create () {
-		var logo = game.add.sprite( game.world.centerX, game.world.centerY, 'logo');
-		logo.anchor.setTo( 0.5, 0.5);
+		if( CConfig.screenshot) {
+//			$( 'body,html').css( 'overflow', 'hidden');
+		}
+
+//		$( document).bind( "orientationchange", function( event, orientation) { eventResize(); });
+//		$( window).resize( eventResize);
+//		eventResize();
+
+		CInit.eventReady();
+	} catch( e) {
+		if( CConfig.debug) {
+			alert( e);
+		}
 	}
 };
 
