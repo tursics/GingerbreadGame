@@ -9,6 +9,7 @@ CInit = new function()
 	{
 		try {
 			this.game = new Phaser.Game( 800, 600, Phaser.AUTO, '', { preload: CInit.preload, create: CInit.create, update: CInit.update });
+//			this.game = new Phaser.Game( 800, 600, Phaser.CANVAS, '', { preload: CInit.preload, create: CInit.create, update: CInit.update });
 
 //			MyField.eventReady();
 //			MyPlayer.eventReady();
@@ -40,6 +41,7 @@ CInit = new function()
 			this.game.load.image( 'ground', 'art/platform.png');
 			this.game.load.image( 'star', 'art/star.png');
 			this.game.load.spritesheet( 'dude', 'art/dude.png', 32, 48);
+			this.game.load.spritesheet( 'GEMS', 'art/items.png', this.GEM_SIZE, this.GEM_SIZE);
 		} catch( e) {
 			if( CConfig.debug) {
 				alert( e);
@@ -88,6 +90,14 @@ CInit = new function()
 			this.scoreText = this.game.add.text( 16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
 
 			this.cursors = this.game.input.keyboard.createCursorKeys();
+
+spawnBoard();
+// currently selected gem starting position. used to stop player form moving gems too far.
+this.selectedGemStartPos = { x: 0, y: 0 };
+// used to disable input while gems are dropping down and respawning
+this.allowInput = true;
+//this.game.input.addMoveCallback(slideGem, this);
+
 		} catch( e) {
 			if( CConfig.debug) {
 				alert( e);
@@ -142,6 +152,13 @@ CInit = new function()
 	this.stars = null;
 	this.score = 0;
 	this.scoreText = null;
+	this.GEM_SIZE = 64;
+	this.GEM_SPACING = 2;
+	this.GEM_SIZE_SPACED = this.GEM_SIZE + this.GEM_SPACING;
+	this.BOARD_COLS = 9;
+	this.BOARD_ROWS = 9;
+	this.selectedGemStartPos;
+	this.allowInput = false;
 
 	//------------------------
 };
@@ -151,6 +168,50 @@ CInit = new function()
 function wpGotoPage( pageName)
 {
 	$.mobile.changePage( "#" + pageName);
+}
+
+//----------------------------
+//----------------------------
+//----------------------------
+
+// fill the screen with as many gems as possible
+function spawnBoard()
+{
+	gems = CInit.game.add.group();
+
+	for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+		for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+			var gem = gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
+			gem.name = 'gem' + x.toString() + 'x' + y.toString();
+//			gem.inputEnabled = true;
+//			gem.events.onInputDown.add( selectGem, this);
+//			gem.events.onInputUp.add( releaseGem, this);
+			randomizeGemColor( gem);
+			setGemPos( gem, x, y);
+		}
+		break;
+	}
+}
+
+// set the position on the board for a gem
+function setGemPos( gem, posX, posY)
+{
+	gem.posX = posX;
+	gem.posY = posY;
+	gem.id = calcGemId( posX, posY);
+}
+
+// the gem id is used by getGem() to find specific gems in the group
+// each position on the board has a unique id
+function calcGemId( posX, posY)
+{
+	return posX + posY * CInit.BOARD_COLS;
+}
+
+// set the gem spritesheet to a random frame
+function randomizeGemColor( gem)
+{
+	gem.frame = CInit.game.rnd.integerInRange( 0, gem.animations.frameTotal - 1);
 }
 
 //----------------------------
