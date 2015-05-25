@@ -93,12 +93,11 @@ CInit = new function()
 
 			this.cursors = this.game.input.keyboard.createCursorKeys();*/
 
-spawnBoard();
+			CInit.touch = new CTouchLevel( CInit.game);
+			spawnBoard( CInit.touch);
 // currently selected gem starting position. used to stop player form moving gems too far.
 			CInit.selectedGemStartPos = { x: 0, y: 0 };
-// used to disable input while gems are dropping down and respawning
-			CInit.allowInput = true;
-CInit.game.input.addMoveCallback( slideGem, this);
+			CInit.touch.thaw();
 
 		} catch( e) {
 			if( CConfig.debug) {
@@ -164,7 +163,7 @@ CInit.game.input.addMoveCallback( slideGem, this);
 	this.selectedGemStartPos;
 	this.selectedGemTween;
 	this.tempShiftedGem = null;
-	this.allowInput = false;
+	this.touch = null;
 
 	//------------------------
 };
@@ -181,7 +180,7 @@ function wpGotoPage( pageName)
 //----------------------------
 
 // fill the screen with as many gems as possible
-function spawnBoard()
+function spawnBoard( touch)
 {
 	CInit.gems = CInit.game.add.group();
 
@@ -190,58 +189,11 @@ function spawnBoard()
 			var gem = CInit.gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
 			gem.name = 'gem' + x.toString() + 'x' + y.toString();
 			gem.inputEnabled = true;
-			gem.events.onInputDown.add( selectGem, this);
-			gem.events.onInputUp.add( releaseGem, this);
+			touch.addGem( gem);
 			randomizeGemColor( gem);
 			setGemPos( gem, x, y);
 		}
 	}
-}
-
-// select a gem and remember its starting position
-function selectGem( gem, pointer)
-{
-	if( !CInit.allowInput) {
-		return;
-	}
-
-//	console.log( 'select gem', gem);
-	CInit.selectedGem = gem;
-	CInit.selectedGemStartPos.x = gem.posX;
-	CInit.selectedGemStartPos.y = gem.posY;
-}
-
-function releaseGem( gem)
-{
-	if( !CInit.allowInput) {
-		return;
-	}
-
-//	console.log( 'release gem', gem);
-
-	// when the mouse is released with a gem selected
-	// 1) check for matches
-	// 2) remove matched gems
-	// 3) drop down gems above removed gems
-	// 4) refill the board
-
-	checkAndKillGemMatches( gem);
-
-	if( CInit.tempShiftedGem !== null) {
-		checkAndKillGemMatches( CInit.tempShiftedGem);
-	}
-
-	removeKilledGems();
-
-	var dropGemDuration = dropGems();
-
-	// delay board refilling until all existing gems have dropped down
-	CInit.game.time.events.add( dropGemDuration * 100, refillBoard);
-
-	CInit.allowInput = false;
-
-	CInit.selectedGem = null;
-	CInit.tempShiftedGem = null;
 }
 
 // count how many gems of the same color are above, below, to the left and right
@@ -365,7 +317,7 @@ function refillBoard()
 // when the board has finished refilling, re-enable player input
 function boardRefilled()
 {
-	CInit.allowInput = true;
+	CInit.touch.thaw();
 }
 
 // count how many gems of the same color lie in a given direction
@@ -445,44 +397,6 @@ function calcGemId( posX, posY)
 function randomizeGemColor( gem)
 {
 	gem.frame = CInit.game.rnd.integerInRange( 0, gem.animations.frameTotal - 1);
-}
-
-function slideGem( pointer, x, y, fromClick)
-{
-	// check if a selected gem should be moved and do it
-	if( CInit.selectedGem && pointer.isDown) {
-		var cursorGemPosX = getGemPos( x);
-		var cursorGemPosY = getGemPos( y);
-
-		if( checkIfGemCanBeMovedHere( CInit.selectedGemStartPos.x, CInit.selectedGemStartPos.y, cursorGemPosX, cursorGemPosY)) {
-			if( cursorGemPosX !== CInit.selectedGem.posX || cursorGemPosY !== CInit.selectedGem.posY) {
-				// move currently selected gem
-				if( CInit.selectedGemTween !== null) {
-					CInit.game.tweens.remove( CInit.selectedGemTween);
-				}
-
-				CInit.selectedGemTween = tweenGemPos( CInit.selectedGem, cursorGemPosX, cursorGemPosY);
-
-				CInit.gems.bringToTop( CInit.selectedGem);
-
-				// if we moved a gem to make way for the selected gem earlier, move it back into its starting position
-				if( CInit.tempShiftedGem !== null) {
-					tweenGemPos( CInit.tempShiftedGem, CInit.selectedGem.posX , CInit.selectedGem.posY);
-					swapGemPosition( CInit.selectedGem, CInit.tempShiftedGem);
-				}
-
-				// when the player moves the selected gem, we need to swap the position of the selected gem with the gem currently in that position 
-				CInit.tempShiftedGem = getGem( cursorGemPosX, cursorGemPosY);
-
-				if( CInit.tempShiftedGem === CInit.selectedGem) {
-					CInit.tempShiftedGem = null;
-				} else {
-					tweenGemPos( CInit.tempShiftedGem, CInit.selectedGem.posX, CInit.selectedGem.posY);
-					swapGemPosition( CInit.selectedGem, CInit.tempShiftedGem);
-				}
-			}
-		}
-	}
 }
 
 // gems can only be moved 1 square up/down or left/right
