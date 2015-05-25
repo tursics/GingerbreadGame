@@ -95,8 +95,6 @@ CInit = new function()
 
 			CInit.touch = new CTouchLevel( CInit.game);
 			spawnBoard( CInit.touch);
-// currently selected gem starting position. used to stop player form moving gems too far.
-			CInit.selectedGemStartPos = { x: 0, y: 0 };
 			CInit.touch.thaw();
 
 		} catch( e) {
@@ -159,9 +157,6 @@ CInit = new function()
 	this.BOARD_COLS = 9;
 	this.BOARD_ROWS = 9;
 	this.gems = null;
-	this.selectedGem = null;
-	this.selectedGemStartPos;
-	this.selectedGemTween;
 	this.tempShiftedGem = null;
 	this.touch = null;
 
@@ -192,46 +187,6 @@ function spawnBoard( touch)
 			touch.addGem( gem);
 			randomizeGemColor( gem);
 			setGemPos( gem, x, y);
-		}
-	}
-}
-
-// count how many gems of the same color are above, below, to the left and right
-// if there are more than 3 matched horizontally or vertically, kill those gems
-// if no match was made, move the gems back into their starting positions
-function checkAndKillGemMatches( gem, matchedGems)
-{
-	if( gem !== null) {
-		var countUp = countSameColorGems( gem, 0, -1);
-		var countDown = countSameColorGems( gem, 0, 1);
-		var countLeft = countSameColorGems( gem, -1, 0);
-		var countRight = countSameColorGems( gem, 1, 0);
-
-		var countHoriz = countLeft + countRight + 1;
-		var countVert = countUp + countDown + 1;
-
-		if( countVert >= 3) {
-			killGemRange( gem.posX, gem.posY - countUp, gem.posX, gem.posY + countDown);
-		}
-
-		if( countHoriz >= 3) {
-			killGemRange( gem.posX - countLeft, gem.posY, gem.posX + countRight, gem.posY);
-		}
-
-		if( countVert < 3 && countHoriz < 3) {
-			if( gem.posX !== CInit.selectedGemStartPos.x || gem.posY !== CInit.selectedGemStartPos.y) {
-				if( CInit.selectedGemTween !== null) {
-					CInit.game.tweens.remove( CInit.selectedGemTween);
-				}
-
-				CInit.selectedGemTween = tweenGemPos( gem, CInit.selectedGemStartPos.x, CInit.selectedGemStartPos.y);
-
-				if( CInit.tempShiftedGem !== null) {
-					tweenGemPos( CInit.tempShiftedGem, gem.posX, gem.posY);
-				}
-
-				swapGemPosition( gem, CInit.tempShiftedGem);
-			}
 		}
 	}
 }
@@ -350,12 +305,6 @@ function getGem( posX, posY)
 	return CInit.gems.iterate( "id", calcGemId( posX, posY), Phaser.Group.RETURN_CHILD);
 }
 
-// convert world coordinates to board position
-function getGemPos( coordinate)
-{
-	return Phaser.Math.floor( coordinate / CInit.GEM_SIZE_SPACED);
-}
-
 // set the position on the board for a gem
 function setGemPos( gem, posX, posY)
 {
@@ -397,24 +346,6 @@ function calcGemId( posX, posY)
 function randomizeGemColor( gem)
 {
 	gem.frame = CInit.game.rnd.integerInRange( 0, gem.animations.frameTotal - 1);
-}
-
-// gems can only be moved 1 square up/down or left/right
-function checkIfGemCanBeMovedHere( fromPosX, fromPosY, toPosX, toPosY)
-{
-	if( toPosX < 0 || toPosX >= CInit.BOARD_COLS || toPosY < 0 || toPosY >= CInit.BOARD_ROWS) {
-		return false;
-	}
-
-	if( fromPosX === toPosX && fromPosY >= toPosY - 1 && fromPosY <= toPosY + 1) {
-		return true;
-	}
-
-	if( fromPosY === toPosY && fromPosX >= toPosX - 1 && fromPosX <= toPosX + 1) {
-		return true;
-	}
-
-	return false;
 }
 
 //----------------------------
