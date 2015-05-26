@@ -9,13 +9,14 @@ function CTouchLevel( game)
 	this.selectedGemObj;
 	this.selectedGemPos;
 	this.selectedGemTween = null;
+	this.dragLength = .5;
 
 	try {
 		this.freeze();
 		this.game.input.addMoveCallback( this.OnDraging, this);
 
 		this.selectedGemObj = null;
-		this.selectedGemPos = { x: 0, y: 0 };
+		this.selectedGemPos = { x: 0, y: 0, dragX: 0, dragY: 0 };
 	} catch(e) {
 		console.error('CTouchLevel not ready');
 	}
@@ -58,6 +59,8 @@ CTouchLevel.prototype.OnTouchDownGem = function( gem, pointer)
 	this.selectedGemObj = gem;
 	this.selectedGemPos.x = gem.posX;
 	this.selectedGemPos.y = gem.posY;
+	this.selectedGemPos.dragX = pointer.x;
+	this.selectedGemPos.dragY = pointer.y;
 
 	console.log( 'Down gem ' + gem.frame + ' at ' + (gem.posX + 1) + 'x' + (gem.posY + 1));
 }
@@ -102,8 +105,22 @@ CTouchLevel.prototype.OnTouchUpGem = function( gem)
 CTouchLevel.prototype.OnDraging = function( pointer, x, y, fromClick)
 {
 	if( this.selectedGemObj && pointer.isDown) {
-		var posX = this.convertCoord2Pos( x);
-		var posY = this.convertCoord2Pos( y);
+		var posX = this.selectedGemPos.x;
+		var posY = this.selectedGemPos.y;
+
+		var block = this.getMove( this.selectedGemPos.dragX, this.selectedGemPos.dragY, x, y);
+		if(( 0 <= block) && (block <= 2)) {
+			--posY;
+		}
+		if(( 2 <= block) && (block <= 4)) {
+			++posX;
+		}
+		if(( 4 <= block) && (block <= 6)) {
+			++posY;
+		}
+		if(( 0 == block) || (6 == block) || (7 == block)) {
+			--posX;
+		}
 
 		if( this.canMove( this.selectedGemPos.x, this.selectedGemPos.y, posX, posY)) {
 			if( this.selectedGemTween !== null) {
@@ -175,13 +192,6 @@ CTouchLevel.prototype.checkAndKillGemMatches = function( gem, matchedGems)
 
 // ---------------------------------------------------------------------------------------
 
-CTouchLevel.prototype.convertCoord2Pos = function( coordinate)
-{
-	return Phaser.Math.floor( coordinate / CInit.GEM_SIZE_SPACED);
-}
-
-// ---------------------------------------------------------------------------------------
-
 CTouchLevel.prototype.canMove = function( fromX, fromY, toX, toY)
 {
 	if(( toX < 0) || (toX >= CInit.BOARD_COLS) || (toY < 0) || (toY >= CInit.BOARD_ROWS)) {
@@ -192,15 +202,38 @@ CTouchLevel.prototype.canMove = function( fromX, fromY, toX, toY)
 		return false;
 	}
 
-	if(( fromX === toX) && (fromY >= toY - 1) && (fromY <= toY + 1)) {
-		return true;
-	}
-
-	if(( fromY === toY) && (fromX >= toX - 1) && (fromX <= toX + 1)) {
+	if(( fromY >= toY - 1) && (fromY <= toY + 1) && (fromX >= toX - 1) && (fromX <= toX + 1)) {
 		return true;
 	}
 
 	return false;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.getMove = function( fromX, fromY, toX, toY)
+{
+	var x = fromX - toX;
+	var y = fromY - toY;
+	var length = Math.sqrt( x*x + y*y);
+	var angle = Math.acos( x / length) * 180 / Math.PI;
+	length /= CInit.GEM_SIZE_SPACED;
+
+	if( length < this.dragLength) {
+		return -1;
+	}
+
+	if( y < 0) {
+		angle = 360 - angle;
+	}
+
+	angle -= 22.5;
+
+	if( angle < 0) {
+		angle += 360;
+	}
+
+	return Math.floor( angle / 45);
 }
 
 // ---------------------------------------------------------------------------------------
