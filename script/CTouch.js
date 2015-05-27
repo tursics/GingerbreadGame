@@ -4,12 +4,21 @@
 
 function CTouchLevel( game)
 {
+	this.FOURDIRECTIONS = 4;
+	this.EIGHTDIRECTIONS = 8;
+
 	this.game = game;
 	this.freezeCount = 0;
-	this.selectedGemObj;
+	this.selectedGemObj = null;
 	this.selectedGemPos;
 	this.selectedGemTween = null;
+	this.swappedGemObj = null;
+	this.solveVec;
+
+	// configurable
 	this.dragLength = .5;
+	this.dragDirections = this.EIGHTDIRECTIONS;
+	this.speedSwapGems = 1.2;
 
 	try {
 		this.freeze();
@@ -17,6 +26,15 @@ function CTouchLevel( game)
 
 		this.selectedGemObj = null;
 		this.selectedGemPos = { x: 0, y: 0, dragX: 0, dragY: 0 };
+		this.swappedGemObj = null;
+
+		this.solveVec = new Array();
+		this.solveVec.push( this.solve5row);
+		this.solveVec.push( this.solve5col);
+		this.solveVec.push( this.solve4row);
+		this.solveVec.push( this.solve4col);
+		this.solveVec.push( this.solve3row);
+		this.solveVec.push( this.solve3col);
 	} catch(e) {
 		console.error('CTouchLevel not ready');
 	}
@@ -61,8 +79,6 @@ CTouchLevel.prototype.OnTouchDownGem = function( gem, pointer)
 	this.selectedGemPos.y = gem.posY;
 	this.selectedGemPos.dragX = pointer.x;
 	this.selectedGemPos.dragY = pointer.y;
-
-	console.log( 'Down gem ' + gem.frame + ' at ' + (gem.posX + 1) + 'x' + (gem.posY + 1));
 }
 
 // ---------------------------------------------------------------------------------------
@@ -73,31 +89,33 @@ CTouchLevel.prototype.OnTouchUpGem = function( gem)
 		return;
 	}
 
-	console.log( 'Up   gem ' + gem.frame + ' at ' + (gem.posX + 1) + 'x' + (gem.posY + 1));
-
-	// when the mouse is released with a gem selected
-	// 1) check for matches
-	// 2) remove matched gems
-	// 3) drop down gems above removed gems
-	// 4) refill the board
-
-	this.checkAndKillGemMatches( gem);
-
-	if( CInit.tempShiftedGem !== null) {
-		this.checkAndKillGemMatches( CInit.tempShiftedGem);
-	}
-
-	removeKilledGems();
-
-	var dropGemDuration = dropGems();
-
-	// delay board refilling until all existing gems have dropped down
-	this.game.time.events.add( dropGemDuration * 100, refillBoard);
-
-	this.freeze();
-
+	this.swappedGemObj = null;
 	this.selectedGemObj = null;
-	CInit.tempShiftedGem = null;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.finishDraw = function( gemObj, callback)
+{
+	var touch = this;
+
+	touch.freeze();
+
+	touch.checkAndKillGemMatches( gemObj, function( dirty) {
+		touch.removeKilledGems();
+
+		touch.dropGems( function() {
+			touch.refillBoard( function() {
+				touch.thaw();
+
+				if( dirty) {
+					touch.finishDraw( null, callback);
+				} else {
+					callback();
+				}
+			});
+		});
+	});
 }
 
 // ---------------------------------------------------------------------------------------
@@ -123,71 +141,245 @@ CTouchLevel.prototype.OnDraging = function( pointer, x, y, fromClick)
 		}
 
 		if( this.canMove( this.selectedGemPos.x, this.selectedGemPos.y, posX, posY)) {
+			var touch = this;
+			var gemObj = this.selectedGemObj;
+			this.selectedGemObj = null;
+			this.swappedGemObj = getGem( posX, posY);
+
+			this.freeze();
+
+			CInit.gems.bringToTop( gemObj);
+
 			if( this.selectedGemTween !== null) {
 				this.game.tweens.remove( this.selectedGemTween);
 			}
-			this.selectedGemTween = tweenGemPos( this.selectedGemObj, posX, posY);
+			this.selectedGemTween = tweenGemPos( gemObj, posX, posY, this.speedSwapGems);
+			tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
+				touch.swapGemPosition( gemObj, touch.swappedGemObj);
 
-console.log( 'Drag gem   to ' + (posX + 1) + 'x' + (posY + 1));
-			CInit.gems.bringToTop( this.selectedGemObj);
-
-			// if we moved a gem to make way for the selected gem earlier, move it back into its starting position
-			if( CInit.tempShiftedGem !== null) {
-				tweenGemPos( CInit.tempShiftedGem, this.selectedGemObj.posX , this.selectedGemObj.posY);
-				swapGemPosition( this.selectedGemObj, CInit.tempShiftedGem);
-			}
-
-			// when the player moves the selected gem, we need to swap the position of the selected gem with the gem currently in that position 
-			CInit.tempShiftedGem = getGem( posX, posY);
-
-			if( CInit.tempShiftedGem === this.selectedGemObj) {
-				CInit.tempShiftedGem = null;
-			} else {
-				tweenGemPos( CInit.tempShiftedGem, this.selectedGemObj.posX, this.selectedGemObj.posY);
-				swapGemPosition( this.selectedGemObj, CInit.tempShiftedGem);
-			}
+				touch.finishDraw( gemObj, function() {
+					touch.thaw();
+				});
+			});
 		}
 	}
 }
 
 // ---------------------------------------------------------------------------------------
-// count how many gems of the same color are above, below, to the left and right
-// if there are more than 3 matched horizontally or vertically, kill those gems
-// if no match was made, move the gems back into their starting positions
-CTouchLevel.prototype.checkAndKillGemMatches = function( gem, matchedGems)
+
+CTouchLevel.prototype.checkAndKillGemMatches = function( gemObj, callback)
 {
-	if( gem !== null) {
-		var countUp = countSameColorGems( gem, 0, -1);
-		var countDown = countSameColorGems( gem, 0, 1);
-		var countLeft = countSameColorGems( gem, -1, 0);
-		var countRight = countSameColorGems( gem, 1, 0);
+	var x = -1;
+	var y = -1;
+	if( gemObj !== null) {
+		x = gemObj.posX;
+		y = gemObj.posY;
+	}
 
-		var countHoriz = countLeft + countRight + 1;
-		var countVert = countUp + countDown + 1;
+	var solved = false;
+	for( var s = 0; s < this.solveVec.length; ++s) {
+		solved = this.solveVec[ s].apply( this, [x, y]) || solved;
+	}
 
-		if( countVert >= 3) {
-			killGemRange( gem.posX, gem.posY - countUp, gem.posX, gem.posY + countDown);
+	if( solved) {
+		setTimeout( function() {
+			callback.apply( this, [true]);
+		}, 100 * this.speedSwapGems + 100);
+		return;
+	}
+
+	if( gemObj !== null) {
+		var touch = this;
+
+		if( this.selectedGemTween !== null) {
+			this.game.tweens.remove( this.selectedGemTween);
 		}
+		this.selectedGemTween = tweenGemPos( gemObj, this.selectedGemPos.x, this.selectedGemPos.y, this.speedSwapGems);
+		tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
+			touch.swapGemPosition( gemObj, touch.swappedGemObj);
+			callback.apply( this, [false]);
+		});
 
-		if( countHoriz >= 3) {
-			killGemRange( gem.posX - countLeft, gem.posY, gem.posX + countRight, gem.posY);
-		}
+		return;
+	}
 
-		if( countVert < 3 && countHoriz < 3) {
-			if( gem.posX !== CInit.touch.selectedGemPos.x || gem.posY !== CInit.touch.selectedGemPos.y) {
-				if( this.selectedGemTween !== null) {
-					this.game.tweens.remove( this.selectedGemTween);
+	callback.apply( this, [false]);
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve3row = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countRight = this.countSameColorGems( gemObj, 1, 0);
+				if( countRight == 2) {
+					getGem( x, y).deaden = true;
+					getGem( x + 1, y).deaden = true;
+					getGem( x + 2, y).deaden = true;
+
+					ret = true;
 				}
-				this.selectedGemTween = tweenGemPos( gem, CInit.touch.selectedGemPos.x, CInit.touch.selectedGemPos.y);
-
-				if( CInit.tempShiftedGem !== null) {
-					tweenGemPos( CInit.tempShiftedGem, gem.posX, gem.posY);
-				}
-
-				swapGemPosition( gem, CInit.tempShiftedGem);
 			}
 		}
 	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve3col = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countDown = this.countSameColorGems( gemObj, 0, 1);
+				if( countDown == 2) {
+					getGem( x, y).deaden = true;
+					getGem( x, y + 1).deaden = true;
+					getGem( x, y + 2).deaden = true;
+
+					ret = true;
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve4row = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countRight = this.countSameColorGems( gemObj, 1, 0);
+				if( countRight == 3) {
+					tweenGemPos( getGem( x, y), x + 1, y, this.speedSwapGems);
+					tweenGemPos( getGem( x + 2, y), x + 1, y, this.speedSwapGems);
+					tweenGemPos( getGem( x + 3, y), x + 1, y, this.speedSwapGems);
+					getGem( x, y).deaden = true;
+					getGem( x + 2, y).deaden = true;
+					getGem( x + 3, y).deaden = true;
+
+					ret = true;
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve4col = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countDown = this.countSameColorGems( gemObj, 0, 1);
+				if( countDown == 3) {
+					tweenGemPos( getGem( x, y), x, y + 1, this.speedSwapGems);
+					tweenGemPos( getGem( x, y + 2), x, y + 1, this.speedSwapGems);
+					tweenGemPos( getGem( x, y + 3), x, y + 1, this.speedSwapGems);
+					getGem( x, y).deaden = true;
+					getGem( x, y + 2).deaden = true;
+					getGem( x, y + 3).deaden = true;
+
+					ret = true;
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve5row = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countRight = this.countSameColorGems( gemObj, 1, 0);
+				if( countRight == 4) {
+					tweenGemPos( getGem( x, y), x + 2, y, this.speedSwapGems);
+					tweenGemPos( getGem( x + 1, y), x + 2, y, this.speedSwapGems);
+					tweenGemPos( getGem( x + 3, y), x + 2, y, this.speedSwapGems);
+					tweenGemPos( getGem( x + 4, y), x + 2, y, this.speedSwapGems);
+					getGem( x, y).deaden = true;
+					getGem( x + 1, y).deaden = true;
+					getGem( x + 3, y).deaden = true;
+					getGem( x + 4, y).deaden = true;
+
+					ret = true;
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.solve5col = function( posX, posY)
+{
+	var ret = false;
+
+	for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
+		for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+			var gemObj = getGem( x, y);
+			if( !gemObj.deaden) {
+				var countDown = this.countSameColorGems( gemObj, 0, 1);
+				if( countDown == 4) {
+					tweenGemPos( getGem( x, y), x, y + 2, this.speedSwapGems);
+					tweenGemPos( getGem( x, y + 1), x, y + 2, this.speedSwapGems);
+					tweenGemPos( getGem( x, y + 3), x, y + 2, this.speedSwapGems);
+					tweenGemPos( getGem( x, y + 4), x, y + 2, this.speedSwapGems);
+					getGem( x, y).deaden = true;
+					getGem( x, y + 1).deaden = true;
+					getGem( x, y + 3).deaden = true;
+					getGem( x, y + 4).deaden = true;
+
+					ret = true;
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.swapGemPosition = function( gem1, gem2)
+{
+	var posX = gem1.posX;
+	var posY = gem1.posY;
+	setGemPos( gem1, gem2.posX, gem2.posY);
+	setGemPos( gem2, posX, posY);
 }
 
 // ---------------------------------------------------------------------------------------
@@ -202,11 +394,7 @@ CTouchLevel.prototype.canMove = function( fromX, fromY, toX, toY)
 		return false;
 	}
 
-	if(( fromY >= toY - 1) && (fromY <= toY + 1) && (fromX >= toX - 1) && (fromX <= toX + 1)) {
-		return true;
-	}
-
-	return false;
+	return true;
 }
 
 // ---------------------------------------------------------------------------------------
@@ -227,13 +415,121 @@ CTouchLevel.prototype.getMove = function( fromX, fromY, toX, toY)
 		angle = 360 - angle;
 	}
 
-	angle -= 22.5;
+	if( this.FOURDIRECTIONS == this.dragDirections) {
+		angle -= 45;
 
-	if( angle < 0) {
-		angle += 360;
+		if( angle < 0) {
+			angle += 360;
+		}
+
+		return 1 + 2 * Math.floor( angle / 90);
+	} else if( this.EIGHTDIRECTIONS == this.dragDirections) {
+		angle -= 22.5;
+
+		if( angle < 0) {
+			angle += 360;
+		}
+
+		return Math.floor( angle / 45);
 	}
 
-	return Math.floor( angle / 45);
+	return -1;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.countSameColorGems = function( gemObj, moveX, moveY)
+{
+	var x = gemObj.posX + moveX;
+	var y = gemObj.posY + moveY;
+	var count = 0;
+
+	while(( x >= 0) && (y >= 0) && (x < CInit.BOARD_COLS) && (y < CInit.BOARD_ROWS) && (this.getGemColor( getGem( x, y)) === this.getGemColor( gemObj))) {
+		++count;
+		x += moveX;
+		y += moveY;
+	}
+
+	return count;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.getGemColor = function( gemObj)
+{
+	return gemObj.frame;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.removeKilledGems = function()
+{
+	CInit.gems.forEach( function( gem) {
+		if( gem.deaden) {
+			gem.deaden = false;
+			gem.kill();
+			setGemPos( gem, -1, -1);
+		}
+	});
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.dropGems = function( callback)
+{
+	var dropRowCountMax = 0;
+
+	for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+		var dropRowCount = 0;
+
+		for( var y = CInit.BOARD_ROWS - 1; y >= 0; --y) {
+			var gemObj = getGem( x, y);
+
+			if( gemObj === null) {
+				++dropRowCount;
+			} else if( dropRowCount > 0) {
+				setGemPos( gemObj, gemObj.posX, gemObj.posY + dropRowCount);
+				tweenGemPos( gemObj, gemObj.posX, gemObj.posY, dropRowCount);
+			}
+		}
+
+		dropRowCountMax = Math.max( dropRowCount, dropRowCountMax);
+	}
+
+	this.game.time.events.add( dropRowCountMax * 100, function() {
+		callback.apply( this);
+	});
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.refillBoard = function( callback)
+{
+	var maxGemsMissingFromCol = 0;
+
+	for( var x = 0; x < CInit.BOARD_COLS; ++x) {
+		var gemsMissingFromCol = 0;
+
+		for( var y = CInit.BOARD_ROWS - 1; y >= 0; --y) {
+			var gem = getGem( x, y);
+
+			if( gem === null) {
+				++gemsMissingFromCol;
+				gem = CInit.gems.getFirstDead();
+				gem.reset( x * CInit.GEM_SIZE_SPACED, -gemsMissingFromCol * CInit.GEM_SIZE_SPACED);
+				gem.deaden = false;
+				randomizeGemColor( gem);
+				setGemPos( gem, x, y);
+				tweenGemPos( gem, gem.posX, gem.posY, gemsMissingFromCol * 2);
+			}
+		}
+
+		maxGemsMissingFromCol = Math.max( maxGemsMissingFromCol, gemsMissingFromCol);
+	}
+
+	this.game.time.events.add( maxGemsMissingFromCol * 2 * 100, function() {
+		callback.apply( this);
+	});
 }
 
 // ---------------------------------------------------------------------------------------
