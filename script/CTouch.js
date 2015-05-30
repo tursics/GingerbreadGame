@@ -153,8 +153,8 @@ CTouchLevel.prototype.OnDraging = function( pointer, x, y, fromClick)
 			if( this.selectedGemTween !== null) {
 				this.game.tweens.remove( this.selectedGemTween);
 			}
-			this.selectedGemTween = tweenGemPos( gemObj, posX, posY, this.speedSwapGems);
-			tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
+			this.selectedGemTween = this.tweenGemPos( gemObj, posX, posY, this.speedSwapGems);
+			this.tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
 				touch.swapGemPosition( gemObj, touch.swappedGemObj);
 
 				touch.finishDraw( gemObj, function() {
@@ -194,8 +194,8 @@ CTouchLevel.prototype.checkAndKillGemMatches = function( gemObj, callback)
 		if( this.selectedGemTween !== null) {
 			this.game.tweens.remove( this.selectedGemTween);
 		}
-		this.selectedGemTween = tweenGemPos( gemObj, this.selectedGemPos.x, this.selectedGemPos.y, this.speedSwapGems);
-		tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
+		this.selectedGemTween = this.tweenGemPos( gemObj, this.selectedGemPos.x, this.selectedGemPos.y, this.speedSwapGems);
+		this.tweenGemPos( this.swappedGemObj, gemObj.posX, gemObj.posY, this.speedSwapGems, function() {
 			touch.swapGemPosition( gemObj, touch.swappedGemObj);
 			callback.apply( this, [false]);
 		});
@@ -218,6 +218,9 @@ CTouchLevel.prototype.solve3row = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countRight = this.countSameColorGems( gemObj, 1, 0);
 				if( countRight == 2) {
+					this.fadeoutGem( getGem( x, y), this.speedSwapGems);
+					this.fadeoutGem( getGem( x + 1, y), this.speedSwapGems);
+					this.fadeoutGem( getGem( x + 2, y), this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x + 1, y).deaden = true;
 					getGem( x + 2, y).deaden = true;
@@ -243,6 +246,9 @@ CTouchLevel.prototype.solve3col = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countDown = this.countSameColorGems( gemObj, 0, 1);
 				if( countDown == 2) {
+					this.fadeoutGem( getGem( x, y), this.speedSwapGems);
+					this.fadeoutGem( getGem( x, y + 1), this.speedSwapGems);
+					this.fadeoutGem( getGem( x, y + 2), this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x, y + 1).deaden = true;
 					getGem( x, y + 2).deaden = true;
@@ -268,9 +274,9 @@ CTouchLevel.prototype.solve4row = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countRight = this.countSameColorGems( gemObj, 1, 0);
 				if( countRight == 3) {
-					tweenGemPos( getGem( x, y), x + 1, y, this.speedSwapGems);
-					tweenGemPos( getGem( x + 2, y), x + 1, y, this.speedSwapGems);
-					tweenGemPos( getGem( x + 3, y), x + 1, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y), x + 1, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x + 2, y), x + 1, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x + 3, y), x + 1, y, this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x + 2, y).deaden = true;
 					getGem( x + 3, y).deaden = true;
@@ -296,9 +302,9 @@ CTouchLevel.prototype.solve4col = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countDown = this.countSameColorGems( gemObj, 0, 1);
 				if( countDown == 3) {
-					tweenGemPos( getGem( x, y), x, y + 1, this.speedSwapGems);
-					tweenGemPos( getGem( x, y + 2), x, y + 1, this.speedSwapGems);
-					tweenGemPos( getGem( x, y + 3), x, y + 1, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y), x, y + 1, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y + 2), x, y + 1, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y + 3), x, y + 1, this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x, y + 2).deaden = true;
 					getGem( x, y + 3).deaden = true;
@@ -324,10 +330,10 @@ CTouchLevel.prototype.solve5row = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countRight = this.countSameColorGems( gemObj, 1, 0);
 				if( countRight == 4) {
-					tweenGemPos( getGem( x, y), x + 2, y, this.speedSwapGems);
-					tweenGemPos( getGem( x + 1, y), x + 2, y, this.speedSwapGems);
-					tweenGemPos( getGem( x + 3, y), x + 2, y, this.speedSwapGems);
-					tweenGemPos( getGem( x + 4, y), x + 2, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y), x + 2, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x + 1, y), x + 2, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x + 3, y), x + 2, y, this.speedSwapGems);
+					this.tweenGemPos( getGem( x + 4, y), x + 2, y, this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x + 1, y).deaden = true;
 					getGem( x + 3, y).deaden = true;
@@ -354,10 +360,10 @@ CTouchLevel.prototype.solve5col = function( posX, posY)
 			if( !gemObj.deaden) {
 				var countDown = this.countSameColorGems( gemObj, 0, 1);
 				if( countDown == 4) {
-					tweenGemPos( getGem( x, y), x, y + 2, this.speedSwapGems);
-					tweenGemPos( getGem( x, y + 1), x, y + 2, this.speedSwapGems);
-					tweenGemPos( getGem( x, y + 3), x, y + 2, this.speedSwapGems);
-					tweenGemPos( getGem( x, y + 4), x, y + 2, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y), x, y + 2, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y + 1), x, y + 2, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y + 3), x, y + 2, this.speedSwapGems);
+					this.tweenGemPos( getGem( x, y + 4), x, y + 2, this.speedSwapGems);
 					getGem( x, y).deaden = true;
 					getGem( x, y + 1).deaden = true;
 					getGem( x, y + 3).deaden = true;
@@ -444,7 +450,7 @@ CTouchLevel.prototype.countSameColorGems = function( gemObj, moveX, moveY)
 	var y = gemObj.posY + moveY;
 	var count = 0;
 
-	while(( x >= 0) && (y >= 0) && (x < CInit.BOARD_COLS) && (y < CInit.BOARD_ROWS) && (this.getGemColor( getGem( x, y)) === this.getGemColor( gemObj))) {
+	while(( x >= 0) && (y >= 0) && (x < CInit.BOARD_COLS) && (y < CInit.BOARD_ROWS) && (!getGem( x, y).deaden) && (this.getGemColor( getGem( x, y)) === this.getGemColor( gemObj))) {
 		++count;
 		x += moveX;
 		y += moveY;
@@ -466,8 +472,9 @@ CTouchLevel.prototype.removeKilledGems = function()
 {
 	CInit.gems.forEach( function( gem) {
 		if( gem.deaden) {
-			gem.deaden = false;
 			gem.kill();
+			gem.deaden = false;
+			gem.alpha = 1;
 			setGemPos( gem, -1, -1);
 		}
 	});
@@ -489,7 +496,7 @@ CTouchLevel.prototype.dropGems = function( callback)
 				++dropRowCount;
 			} else if( dropRowCount > 0) {
 				setGemPos( gemObj, gemObj.posX, gemObj.posY + dropRowCount);
-				tweenGemPos( gemObj, gemObj.posX, gemObj.posY, dropRowCount);
+				this.tweenGemPos( gemObj, gemObj.posX, gemObj.posY, dropRowCount);
 			}
 		}
 
@@ -518,9 +525,10 @@ CTouchLevel.prototype.refillBoard = function( callback)
 				gem = CInit.gems.getFirstDead();
 				gem.reset( x * CInit.GEM_SIZE_SPACED, -gemsMissingFromCol * CInit.GEM_SIZE_SPACED);
 				gem.deaden = false;
+				gem.alpha = 1;
 				randomizeGemColor( gem);
 				setGemPos( gem, x, y);
-				tweenGemPos( gem, gem.posX, gem.posY, gemsMissingFromCol * 2);
+				this.tweenGemPos( gem, gem.posX, gem.posY, gemsMissingFromCol * 2);
 			}
 		}
 
@@ -530,6 +538,45 @@ CTouchLevel.prototype.refillBoard = function( callback)
 	this.game.time.events.add( maxGemsMissingFromCol * 2 * 100, function() {
 		callback.apply( this);
 	});
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.tweenGemPos = function( gem, newPosX, newPosY, durationMultiplier, callback)
+{
+	if( durationMultiplier === null || typeof durationMultiplier === 'undefined') {
+		durationMultiplier = 1;
+	}
+
+	if( typeof callback !== 'undefined') {
+		setTimeout( function() {
+			callback();
+		}, 100 * durationMultiplier + 100);
+	}
+
+	return this.game.add.tween( gem).to({
+		x: newPosX * CInit.GEM_SIZE_SPACED,
+		y: newPosY * CInit.GEM_SIZE_SPACED},
+		100 * durationMultiplier, Phaser.Easing.Linear.None, true);
+}
+
+// ---------------------------------------------------------------------------------------
+
+CTouchLevel.prototype.fadeoutGem = function( gem, durationMultiplier, callback)
+{
+	if( durationMultiplier === null || typeof durationMultiplier === 'undefined') {
+		durationMultiplier = 1;
+	}
+
+	if( typeof callback !== 'undefined') {
+		setTimeout( function() {
+			callback();
+		}, 100 * durationMultiplier + 100);
+	}
+
+	return this.game.add.tween( gem).to({
+		alpha: 0},
+		100 * durationMultiplier, Phaser.Easing.Linear.None, true);
 }
 
 // ---------------------------------------------------------------------------------------
