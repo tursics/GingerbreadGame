@@ -183,6 +183,7 @@ function spawnBoard( touch)
 			var gem = CInit.gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
 			gem.name = 'gem' + x.toString() + 'x' + y.toString();
 			gem.deaden = false;
+			gem.alpha = 1;
 			gem.inputEnabled = true;
 			touch.addGem( gem);
 			randomizeGemColor( gem);
@@ -203,23 +204,6 @@ function setGemPos( gem, posX, posY)
 	gem.posX = posX;
 	gem.posY = posY;
 	gem.id = calcGemId( posX, posY);
-}
-
-// animated gem movement
-function tweenGemPos( gem, newPosX, newPosY, durationMultiplier, callback)
-{
-	if( durationMultiplier === null || typeof durationMultiplier === 'undefined') {
-		durationMultiplier = 1;
-	}
-
-	if( typeof callback !== 'undefined') {
-		setTimeout( function() { callback(); }, 100 * durationMultiplier + 100);
-	}
-
-	return CInit.game.add.tween( gem).to({
-		x: newPosX * CInit.GEM_SIZE_SPACED,
-		y: newPosY * CInit.GEM_SIZE_SPACED},
-		100 * durationMultiplier, Phaser.Easing.Linear.None, true);
 }
 
 // the gem id is used by getGem() to find specific gems in the group
