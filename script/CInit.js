@@ -154,10 +154,13 @@ CInit = new function()
 	this.GEM_SIZE = 64;
 	this.GEM_SPACING = 2;
 	this.GEM_SIZE_SPACED = this.GEM_SIZE + this.GEM_SPACING;
-	this.BOARD_COLS = 9;
-	this.BOARD_ROWS = 9;
+	this.BOARD_COLS = 8;
+	this.BOARD_ROWS = 8;
 	this.gems = null;
 	this.touch = null;
+	this.VOID = 0;
+	this.DEADEN = 1;
+	this.BUSY = 2;
 
 	//------------------------
 };
@@ -182,7 +185,7 @@ function spawnBoard( touch)
 		for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
 			var gem = CInit.gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
 			gem.name = 'gem' + x.toString() + 'x' + y.toString();
-			gem.deaden = false;
+			gem.mark = CInit.VOID;
 			gem.alpha = 1;
 			gem.inputEnabled = true;
 			touch.addGem( gem);
