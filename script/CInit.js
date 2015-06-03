@@ -15,7 +15,7 @@ CInit = new function()
 //			MyPlayer.eventReady();
 		} catch( e) {
 			if( CConfig.debug) {
-				alert( e);
+				console.error( 'CInit not ready', e);
 			}
 		}
 	};
@@ -28,7 +28,7 @@ CInit = new function()
 //			MyPlayer.eventResize();
 		} catch( e) {
 			if( CConfig.debug) {
-				alert( e);
+				console.error( 'CInit resize error', e);
 			}
 		}
 	};
@@ -46,7 +46,7 @@ CInit = new function()
 			this.game.load.spritesheet( 'GEMS', 'art/items.png', this.GEM_SIZE, this.GEM_SIZE);
 		} catch( e) {
 			if( CConfig.debug) {
-				alert( e);
+				console.error( 'CInit preload error', e);
 			}
 		}
 	}
@@ -93,13 +93,15 @@ CInit = new function()
 
 			this.cursors = this.game.input.keyboard.createCursorKeys();*/
 
-			CInit.touch = new CTouchLevel( CInit.game);
-			spawnBoard( CInit.touch);
+			CInit.board = new CBoard( CInit.game);
+			CInit.touch = new CTouchLevel( CInit.game, CInit.board);
+
+			CInit.board.spawnBoard( CInit.touch);
 			CInit.touch.thaw();
 
 		} catch( e) {
 			if( CConfig.debug) {
-				alert( e);
+				console.error( 'CInit creation error', e);
 			}
 		}
 	}
@@ -130,7 +132,7 @@ CInit = new function()
 			}*/
 		} catch( e) {
 			if( CConfig.debug) {
-				alert( e);
+				console.error( 'CInit update error', e);
 			}
 		}
 	}
@@ -154,9 +156,8 @@ CInit = new function()
 	this.GEM_SIZE = 64;
 	this.GEM_SPACING = 2;
 	this.GEM_SIZE_SPACED = this.GEM_SIZE + this.GEM_SPACING;
-	this.BOARD_COLS = 8;
-	this.BOARD_ROWS = 8;
 	this.gems = null;
+	this.board = null;
 	this.touch = null;
 	this.VOID = 0;
 	this.DEADEN = 1;
@@ -170,56 +171,6 @@ CInit = new function()
 function wpGotoPage( pageName)
 {
 	$.mobile.changePage( "#" + pageName);
-}
-
-//----------------------------
-//----------------------------
-//----------------------------
-
-// fill the screen with as many gems as possible
-function spawnBoard( touch)
-{
-	CInit.gems = CInit.game.add.group();
-
-	for( var x = 0; x < CInit.BOARD_COLS; ++x) {
-		for( var y = 0; y < CInit.BOARD_ROWS; ++y) {
-			var gem = CInit.gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
-			gem.name = 'gem' + x.toString() + 'x' + y.toString();
-			gem.mark = CInit.VOID;
-			gem.alpha = 1;
-			gem.inputEnabled = true;
-			touch.addGem( gem);
-			randomizeGemColor( gem);
-			setGemPos( gem, x, y);
-		}
-	}
-}
-
-// find a gem on the board according to its position on the board
-function getGem( posX, posY)
-{
-	return CInit.gems.iterate( "id", calcGemId( posX, posY), Phaser.Group.RETURN_CHILD);
-}
-
-// set the position on the board for a gem
-function setGemPos( gem, posX, posY)
-{
-	gem.posX = posX;
-	gem.posY = posY;
-	gem.id = calcGemId( posX, posY);
-}
-
-// the gem id is used by getGem() to find specific gems in the group
-// each position on the board has a unique id
-function calcGemId( posX, posY)
-{
-	return posX + posY * CInit.BOARD_COLS;
-}
-
-// set the gem spritesheet to a random frame
-function randomizeGemColor( gem)
-{
-	gem.frame = CInit.game.rnd.integerInRange( 0, gem.animations.frameTotal - 1);
 }
 
 //----------------------------
