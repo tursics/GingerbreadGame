@@ -21,9 +21,20 @@ function CBoard( init, game)
 
 // ---------------------------------------------------------------------------------------
 
-CBoard.prototype.spawnBoard = function( touch)
+CBoard.prototype.spawnBoard = function( touch, level)
 {
 	this.init.gems = this.init.game.add.group();
+
+	if( level.design.length != this.MAX_ROW) {
+		console.error( 'Level design error', level);
+		return;
+	}
+	for( var y = 0; y < this.MAX_ROW; ++y) {
+		if( level.design[y].length != this.MAX_COL) {
+			console.error( 'Level design error', level);
+			return;
+		}
+	}
 
 	for( var x = 0; x < this.MAX_COL; ++x) {
 		for( var y = 0; y < this.MAX_ROW; ++y) {
@@ -33,7 +44,7 @@ CBoard.prototype.spawnBoard = function( touch)
 			gem.alpha = 1;
 			gem.inputEnabled = true;
 			touch.addGem( gem);
-			this.randomizeGemColor( gem);
+			this.setGemColor( gem, level.design[y][x]);
 			this.setGemPos( gem, x, y);
 		}
 	}
@@ -291,6 +302,25 @@ CBoard.prototype.calcGemId = function( posX, posY)
 CBoard.prototype.randomizeGemColor = function( gemObj)
 {
 	gemObj.frame = this.game.rnd.integerInRange( 0, gemObj.animations.frameTotal - 1);
+}
+
+// ---------------------------------------------------------------------------------------
+
+CBoard.prototype.setGemColor = function( gemObj, item)
+{
+	if( 'A' == item) {
+		gemObj.frame = 0;
+	} else if( 'B' == item) {
+		gemObj.frame = 1;
+	} else if( 'C' == item) {
+		gemObj.frame = 2;
+	} else if( 'D' == item) {
+		gemObj.frame = 3;
+	} else if( 'E' == item) {
+		gemObj.frame = 4;
+	} else {
+		this.randomizeGemColor( gemObj);
+	}
 }
 
 // ---------------------------------------------------------------------------------------

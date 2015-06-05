@@ -19,6 +19,7 @@ function CInit()
 	this.gems = null;
 	this.board = null;
 	this.touch = null;
+	this.level = null;
 
 	try {
 	} catch(e) {

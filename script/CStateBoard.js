@@ -39,7 +39,7 @@ CStateBoard.prototype.create = function()
 		this.inits.board = new CBoard( this.inits, this.game);
 		this.inits.touch = new CTouchLevel( this.inits, this.game, this.inits.board);
 
-		this.inits.board.spawnBoard( this.inits.touch);
+		this.inits.board.spawnBoard( this.inits.touch, this.inits.level.levels[0]);
 		this.inits.touch.thaw();
 	} catch( e) {
 		if( CConfig.debug) {

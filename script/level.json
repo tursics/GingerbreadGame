@@ -1,0 +1,32 @@
+﻿{
+	"levels": [
+	{
+		"label": 1,
+		"design": [
+			"ABABABABA",
+			"BABABABAB",
+			"ABABABABA",
+			"BABABABAB",
+			"ABABABABA",
+			"BABABABAB",
+			"ABABABABA",
+			"BABABABAB",
+			"ABABABABA"
+		]
+	},
+	{
+		"label": 2,
+		"design": [
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR",
+			"RRRRRRRRR"
+		]
+	}
+	]
+}
