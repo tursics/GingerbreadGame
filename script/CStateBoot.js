@@ -19,6 +19,8 @@ function CStateBoot( inits, game)
 CStateBoot.prototype.create = function()
 {
 	try {
+		this.game.stage.backgroundColor = '#4b0049';
+
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.game.scale.setScreenSize();
 

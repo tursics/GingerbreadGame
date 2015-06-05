@@ -35,7 +35,7 @@ CStateLoad.prototype.preload = function()
 CStateLoad.prototype.create = function()
 {
 	try {
-		this.game.state.start( 'board');
+		this.game.state.start( 'welcome');
 	} catch( e) {
 		if( CConfig.debug) {
 			console.error( 'CStateLoad creation error', e);

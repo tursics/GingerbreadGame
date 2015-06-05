@@ -36,6 +36,7 @@ CInit.prototype.eventReady = function()
 		this.game.state.add( 'boot', new CStateBoot( this, this.game));
 		this.game.state.add( 'board', new CStateBoard( this, this.game));
 		this.game.state.add( 'load', new CStateLoad( this, this.game));
+		this.game.state.add( 'welcome', new CStateWelcome( this, this.game));
 
 		this.game.state.start( 'boot');
 
