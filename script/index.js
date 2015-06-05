@@ -101,7 +101,8 @@ window.onload = function()
 //		$( window).resize( eventResize);
 //		eventResize();
 
-		CInit.eventReady();
+		var init = new CInit();
+		init.eventReady();
 	} catch( e) {
 		if( CConfig.debug) {
 			alert( e);

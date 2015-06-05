@@ -2,11 +2,12 @@
 // class for touch input
 // ---------------------------------------------------------------------------------------
 
-function CTouchLevel( game, board)
+function CTouchLevel( init, game, board)
 {
 	this.FOURDIRECTIONS = 4;
 	this.EIGHTDIRECTIONS = 8;
 
+	this.init = init;
 	this.game = game;
 	this.board = board;
 	this.freezeCount = 0;
@@ -115,7 +116,7 @@ CTouchLevel.prototype.OnDraging = function( pointer, x, y, fromClick)
 
 			this.freeze();
 
-			CInit.gems.bringToTop( gemObj);
+			this.init.gems.bringToTop( gemObj);
 
 			if( this.selectedGemTween !== null) {
 				this.game.tweens.remove( this.selectedGemTween);
@@ -155,7 +156,7 @@ CTouchLevel.prototype.getMove = function( fromX, fromY, toX, toY)
 	var y = fromY - toY;
 	var length = Math.sqrt( x*x + y*y);
 	var angle = Math.acos( x / length) * 180 / Math.PI;
-	length /= CInit.GEM_SIZE_SPACED;
+	length /= this.init.GEM_SIZE_SPACED;
 
 	if( length < this.dragLength) {
 		return -1;

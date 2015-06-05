@@ -2,17 +2,18 @@
 // class for board full of gems
 // ---------------------------------------------------------------------------------------
 
-function CBoard( game)
+function CBoard( init, game)
 {
 	// configurable
-	this.MAX_COL = 8;
-	this.MAX_ROW = 8;
+	this.MAX_COL = 9;
+	this.MAX_ROW = 9;
 
+	this.init = init;
 	this.game = game;
 	this.solve;
 
 	try {
-		this.solve = new CSolve( this);
+		this.solve = new CSolve( this.init, this);
 	} catch(e) {
 		console.error( 'CBoard not ready');
 	}
@@ -22,13 +23,13 @@ function CBoard( game)
 
 CBoard.prototype.spawnBoard = function( touch)
 {
-	CInit.gems = CInit.game.add.group();
+	this.init.gems = this.init.game.add.group();
 
 	for( var x = 0; x < this.MAX_COL; ++x) {
 		for( var y = 0; y < this.MAX_ROW; ++y) {
-			var gem = CInit.gems.create( x * CInit.GEM_SIZE_SPACED, y * CInit.GEM_SIZE_SPACED, 'GEMS');
+			var gem = this.init.gems.create( x * this.init.GEM_SIZE_SPACED, y * this.init.GEM_SIZE_SPACED, 'GEMS');
 			gem.name = 'gem' + x.toString() + 'x' + y.toString();
-			gem.mark = CInit.VOID;
+			gem.mark = this.init.VOID;
 			gem.alpha = 1;
 			gem.inputEnabled = true;
 			touch.addGem( gem);
@@ -126,13 +127,13 @@ CBoard.prototype.killGems = function()
 {
 	var board = this;
 
-	CInit.gems.forEach( function( gem) {
-		if( gem.mark == CInit.DEADEN) {
+	this.init.gems.forEach( function( gem) {
+		if( gem.mark == board.init.DEADEN) {
 			gem.kill();
 			gem.alpha = 1;
 			board.setGemPos( gem, -1, -1);
 		}
-		gem.mark = CInit.VOID;
+		gem.mark = board.init.VOID;
 	});
 }
 
@@ -183,9 +184,9 @@ CBoard.prototype.refillBoard = function( callback)
 
 			if( gemObj === null) {
 				++gemsMissingFromCol;
-				gemObj = CInit.gems.getFirstDead();
-				gemObj.reset( x * CInit.GEM_SIZE_SPACED, -gemsMissingFromCol * CInit.GEM_SIZE_SPACED);
-				gemObj.mark = CInit.VOID;
+				gemObj = this.init.gems.getFirstDead();
+				gemObj.reset( x * this.init.GEM_SIZE_SPACED, -gemsMissingFromCol * this.init.GEM_SIZE_SPACED);
+				gemObj.mark = this.init.VOID;
 				gemObj.alpha = 1;
 				this.randomizeGemColor( gemObj);
 				this.setGemPos( gemObj, x, y);
@@ -234,8 +235,8 @@ CBoard.prototype.tweenGemPos = function( gemObj, newPosX, newPosY, durationMulti
 	}
 
 	return this.game.add.tween( gemObj).to({
-		x: newPosX * CInit.GEM_SIZE_SPACED,
-		y: newPosY * CInit.GEM_SIZE_SPACED},
+		x: newPosX * this.init.GEM_SIZE_SPACED,
+		y: newPosY * this.init.GEM_SIZE_SPACED},
 		100 * durationMultiplier, Phaser.Easing.Linear.None, true);
 }
 
@@ -266,7 +267,7 @@ CBoard.prototype.fadeoutGem = function( gemObj, durationMultiplier, callback)
 
 CBoard.prototype.getGemObj = function( posX, posY)
 {
-	return CInit.gems.iterate( "id", this.calcGemId( posX, posY), Phaser.Group.RETURN_CHILD);
+	return this.init.gems.iterate( "id", this.calcGemId( posX, posY), Phaser.Group.RETURN_CHILD);
 }
 
 // ---------------------------------------------------------------------------------------
@@ -289,7 +290,7 @@ CBoard.prototype.calcGemId = function( posX, posY)
 
 CBoard.prototype.randomizeGemColor = function( gemObj)
 {
-	gemObj.frame = CInit.game.rnd.integerInRange( 0, gemObj.animations.frameTotal - 1);
+	gemObj.frame = this.game.rnd.integerInRange( 0, gemObj.animations.frameTotal - 1);
 }
 
 // ---------------------------------------------------------------------------------------

@@ -2,4 +2,7 @@
 
 gDict['de'] = {
 	'appLang': 'de-DE',
+
+	'load_loading': 'Wird geladen ...',
+	'board_score': 'Punkte:',
 };
