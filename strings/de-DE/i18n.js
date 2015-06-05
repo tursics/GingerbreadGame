@@ -2,7 +2,11 @@
 
 gDict['de'] = {
 	'appLang': 'de-DE',
+	'appTitle': 'Nürnberger Lebkuchen',
 
 	'load_loading': 'Wird geladen ...',
+
+	'welcome_play': 'Spielen!',
+
 	'board_score': 'Punkte:',
 };
