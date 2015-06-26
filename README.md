@@ -25,7 +25,7 @@ Ich verwende intern die Bibliothek phaser.js. Diese ist speziell auf Browserspie
 
 # Lizenzen
 
-Der Quelltext steht unter einer MIT-Lizenz. Die Leveldaten sind abgeleitet aus dem Werk der SLUB und stehen somit auch unter "SLUB Dresden, digital.slub-dresden.de/id30409217Z/100 ([CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/deed.de))".
+Der Quelltext steht unter einer MIT-Lizenz. Die Leveldaten sind abgeleitet aus dem Werk der SLUB und stehen somit auch unter "SLUB Dresden, [slubdd.de/katalog?TN_libero_mab214078761](http://slubdd.de/katalog?TN_libero_mab214078761) ([CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/deed.de))".
 
 # App
 
