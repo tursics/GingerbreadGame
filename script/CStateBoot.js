@@ -19,9 +19,14 @@ function CStateBoot( inits, game)
 CStateBoot.prototype.create = function()
 {
 	try {
+		if( !this.game.device.desktop) {
+			this.game.scale.startFullScreen( false);
+		}
+
 		this.game.stage.backgroundColor = '#4b0049';
 
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL; //EXACT_FIT;
 		this.game.scale.setScreenSize();
 
 		this.game.world.setBounds( 0, 0, 800, 600);
