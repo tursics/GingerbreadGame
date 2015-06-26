@@ -2,7 +2,7 @@
 // class for board full of gems
 // ---------------------------------------------------------------------------------------
 
-function CBoard( init, game)
+function CBoard( init, game, score)
 {
 	// configurable
 	this.MAX_COL = 9;
@@ -10,10 +10,11 @@ function CBoard( init, game)
 
 	this.init = init;
 	this.game = game;
-	this.solve;
+	this.score = score;
+	this.solve = null;
 
 	try {
-		this.solve = new CSolve( this.init, this);
+		this.solve = new CSolve( this.init, this, this.score);
 	} catch(e) {
 		console.error( 'CBoard not ready');
 	}

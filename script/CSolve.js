@@ -2,10 +2,11 @@
 // class for solving the gems
 // ---------------------------------------------------------------------------------------
 
-function CSolve( init, board)
+function CSolve( init, board, score)
 {
 	this.init = init;
 	this.board = board;
+	this.score = score;
 	this.solveVec;
 
 	try {
@@ -64,6 +65,10 @@ CSolve.prototype.solveSquare = function( posX, posY)
 					this.board.getGemObj( x, y + 1).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y + 1).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_SQUARE);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y + 1, this.score.GEM);
 
 					ret = true;
 				}
@@ -96,6 +101,11 @@ CSolve.prototype.solveLTopLeft = function( posX, posY)
 					this.board.getGemObj( x, y + 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_L);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x, y + 2, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -129,6 +139,11 @@ CSolve.prototype.solveTTop = function( posX, posY)
 					this.board.getGemObj( x, y + 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_T);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x, y + 2, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -162,6 +177,11 @@ CSolve.prototype.solveTRight = function( posX, posY)
 					this.board.getGemObj( x, y + 1).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_T);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x - 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -195,6 +215,11 @@ CSolve.prototype.solveTBottom = function( posX, posY)
 					this.board.getGemObj( x, y - 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_T);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y - 2, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -228,6 +253,11 @@ CSolve.prototype.solveTLeft = function( posX, posY)
 					this.board.getGemObj( x, y + 1).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_T);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -260,6 +290,11 @@ CSolve.prototype.solveLTopRight = function( posX, posY)
 					this.board.getGemObj( x, y + 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_L);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x, y + 2, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -292,6 +327,11 @@ CSolve.prototype.solveLBottomLeft = function( posX, posY)
 					this.board.getGemObj( x, y - 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_L);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y - 2, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -324,6 +364,11 @@ CSolve.prototype.solveLBottomRight = function( posX, posY)
 					this.board.getGemObj( x, y - 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_L);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y - 2, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x - 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -352,6 +397,9 @@ CSolve.prototype.solve3row = function( posX, posY)
 					this.board.getGemObj( x, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 2, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 2, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -380,6 +428,9 @@ CSolve.prototype.solve3col = function( posX, posY)
 					this.board.getGemObj( x, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x, y + 1).mark = this.init.DEADEN;
 					this.board.getGemObj( x, y + 2).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x, y + 2, this.score.GEM);
 
 					ret = true;
 				}
@@ -409,6 +460,10 @@ CSolve.prototype.solve4row = function( posX, posY)
 					this.board.getGemObj( x + 1, y).mark = this.init.BUSY;
 					this.board.getGemObj( x + 2, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 3, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM_FOUR);
+					this.score.scoreGem( x + 2, y, this.score.GEM);
+					this.score.scoreGem( x + 3, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -438,6 +493,10 @@ CSolve.prototype.solve4col = function( posX, posY)
 					this.board.getGemObj( x, y + 1).mark = this.init.BUSY;
 					this.board.getGemObj( x, y + 2).mark = this.init.DEADEN;
 					this.board.getGemObj( x, y + 3).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM_FOUR);
+					this.score.scoreGem( x, y + 2, this.score.GEM);
+					this.score.scoreGem( x, y + 3, this.score.GEM);
 
 					ret = true;
 				}
@@ -472,6 +531,11 @@ CSolve.prototype.solveCross = function( posX, posY)
 					this.board.getGemObj( x, y + 1).mark = this.init.DEADEN;
 					this.board.getGemObj( x - 1, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 1, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM_CROSS);
+					this.score.scoreGem( x, y - 1, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x - 1, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -503,6 +567,11 @@ CSolve.prototype.solve5row = function( posX, posY)
 					this.board.getGemObj( x + 2, y).mark = this.init.BUSY;
 					this.board.getGemObj( x + 3, y).mark = this.init.DEADEN;
 					this.board.getGemObj( x + 4, y).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x + 1, y, this.score.GEM);
+					this.score.scoreGem( x + 2, y, this.score.GEM_FIVE);
+					this.score.scoreGem( x + 3, y, this.score.GEM);
+					this.score.scoreGem( x + 4, y, this.score.GEM);
 
 					ret = true;
 				}
@@ -534,6 +603,11 @@ CSolve.prototype.solve5col = function( posX, posY)
 					this.board.getGemObj( x, y + 2).mark = this.init.BUSY;
 					this.board.getGemObj( x, y + 3).mark = this.init.DEADEN;
 					this.board.getGemObj( x, y + 4).mark = this.init.DEADEN;
+					this.score.scoreGem( x, y, this.score.GEM);
+					this.score.scoreGem( x, y + 1, this.score.GEM);
+					this.score.scoreGem( x, y + 2, this.score.GEM_FIVE);
+					this.score.scoreGem( x, y + 3, this.score.GEM);
+					this.score.scoreGem( x, y + 4, this.score.GEM);
 
 					ret = true;
 				}
