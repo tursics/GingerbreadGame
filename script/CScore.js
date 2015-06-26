@@ -38,7 +38,7 @@ CScore.prototype.create = function()
 	gradient.addColorStop( 1, '#004CB3');
 
 //	this.scoreText.anchor.setTo( 0.5);
-//	this.scoreText.font = 'Revalia';
+	this.scoreText.font = 'Coaster';
 	this.scoreText.fontSize = 24;
 	this.scoreText.fill = gradient;
 	this.scoreText.align = 'center';

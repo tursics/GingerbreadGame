@@ -2,6 +2,18 @@
 	width:device-width;
 }
 
+@font-face {
+	font-family:'Coaster';
+	src: url('../font/coaster.eot');
+	src: url('../font/coaster.eot?#iefix') format('embedded-opentype'),
+	     url('../font/coaster.woff2') format('woff2'),
+	     url('../font/coaster.woff') format('woff'),
+	     url('../font/coaster.ttf') format('truetype'),
+	     url('../font/coaster.svg#coasterblack') format('svg');
+	font-weight:normal;
+	font-style:normal;
+}
+
 body, html {
 	background:#000000;
 	font-size:1em;

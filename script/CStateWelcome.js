@@ -18,16 +18,20 @@ function CStateWelcome( inits, game)
 CStateWelcome.prototype.create = function()
 {
 	try {
-		this.game.stage.backgroundColor = '#4b0049';
+		this.game.stage.backgroundColor = '#4364ac';
+		this.game.add.sprite( 0, 0, 'bgWelcome');
 
-		var labelTitle = this.game.add.text( this.game.world.centerX, 80, _('appTitle'), {font: '40px Arial', fill: '#ffffff', align: 'center'});
+		var labelTitle = this.game.add.text( this.game.world.centerX, 80, _('appTitle'), {font: '40px Coaster', fill: '#ffffff', align: 'center'});
 		labelTitle.anchor.set( .5);
 
-		var labelStart = this.game.add.text( this.game.world.centerX, this.game.world.centerY, _('welcome_play'), {font: '50px Arial', fill: '#ffffff', align: 'center', backgroundColor: '#900090'});
+		var labelStart = this.game.add.text( this.game.world.centerX, this.game.world.centerY, _('welcome_play'), {font: '50px Coaster', fill: '#ffffff', align: 'center', backgroundColor: '#900090'});
 		labelStart.anchor.set( .5);
 		labelStart.inputEnabled = true;
 		labelStart.events.onInputDown.add( this.eventStartDown, this);
 		labelStart.events.onInputUp.add( this.eventStartUp, this);
+
+//		var test = this.game.input.keyboard.addKey( Phaser.Keyboard.T);
+//		test.onDown.addOnce( this.test, this);
 	} catch( e) {
 		if( CConfig.debug) {
 			console.error( 'CStateWelcome creation error', e);
@@ -49,6 +53,13 @@ CStateWelcome.prototype.eventStartUp = function( item)
 	item.fill = '#ffffff';
 
 	this.game.state.start( 'board');
+}
+
+// ---------------------------------------------------------------------------------------
+
+CStateWelcome.prototype.test = function()
+{
+	this.game.state.start( 'levels');
 }
 
 // ---------------------------------------------------------------------------------------

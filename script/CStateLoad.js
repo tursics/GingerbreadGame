@@ -21,12 +21,21 @@ function CStateLoad( inits, game)
 CStateLoad.prototype.preload = function()
 {
 	try {
-		this.game.stage.backgroundColor = '#4b0049';
+		this.game.stage.backgroundColor = '#4364ac';
 
 		var label = this.game.add.text( this.game.world.centerX, this.game.world.centerY, _('load_loading'), {font: '30px Courier', fill: '#ffffff'});
 		label.anchor.set( .5);
 
+		// needed in CStateWelcome
+		this.load.image( 'bgWelcome', 'art/backgroundWelcome.png');
+
+		// needed in CStateLevels
+//		this.load.tilemap( 'sceneryMap', 'script/scenery.json', null, Phaser.Tilemap.TILED_JSON);
+//		this.load.image( 'sceneryTiles', 'art/sceneryTiles.png');
+//		this.load.image( 'sceneryBackground', 'art/sceneryBackground.png');
 		this.load.image( 'sky', 'art/sky.png');
+//		this.load.image( 'winterSet', 'art/winter.png');
+//		this.load.tilemap( 'winterMap', 'art/winter.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.spritesheet( 'GEMS', 'art/items.png', this.inits.GEM_SIZE, this.inits.GEM_SIZE);
 

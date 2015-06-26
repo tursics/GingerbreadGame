@@ -27,6 +27,10 @@ Ich verwende intern die Bibliothek phaser.js. Diese ist speziell auf Browserspie
 
 Der Quelltext steht unter einer MIT-Lizenz. Die Leveldaten sind abgeleitet aus dem Werk der SLUB und stehen somit auch unter "SLUB Dresden, [slubdd.de/katalog?TN_libero_mab214078761](http://slubdd.de/katalog?TN_libero_mab214078761) ([CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/deed.de))".
 
+Der benutzte Font [Coaster](http://www.dafont.com/coaster.font) ist "100% Free".
+
+Die Grafiken basieren auf [Winter Platformer Game Tileset](http://opengameart.org/content/winter-platformer-game-tileset) mit einer [CC0-Lizenz](http://creativecommons.org/publicdomain/zero/1.0/). Meine Ableitungen stelle ich unter eine CC-BY 4.0-Lizenz.
+
 # App
 
 Die App wird erstmal nur im Browser laufen. Weitere Schritte kommen später. Eine Testversion befindet sich unter http://tursics.de/sample/gingerbread/
