@@ -24,11 +24,11 @@ CStateWelcome.prototype.create = function()
 		var title = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2, 'titleWelcome');
 		title.anchor.set( .5);
 
-		var labelStart = this.game.add.text( this.game.world.centerX, this.game.world.centerY / 2 * 3, _('welcome_play'), {font: '50px Coaster', fill: '#ffffff', align: 'center', backgroundColor: '#900090'});
-		labelStart.anchor.set( .5);
-		labelStart.inputEnabled = true;
-		labelStart.events.onInputDown.add( this.eventStartDown, this);
-		labelStart.events.onInputUp.add( this.eventStartUp, this);
+		var buttonPlay = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2 * 3, 'buttonPlay');
+		buttonPlay.anchor.set( .5);
+		buttonPlay.inputEnabled = true;
+		buttonPlay.events.onInputDown.add( this.eventStartDown, this);
+		buttonPlay.events.onInputUp.add( this.eventStartUp, this);
 
 //		var test = this.game.input.keyboard.addKey( Phaser.Keyboard.T);
 //		test.onDown.addOnce( this.test, this);
@@ -43,14 +43,14 @@ CStateWelcome.prototype.create = function()
 
 CStateWelcome.prototype.eventStartDown = function( item)
 {
-	item.fill = '#ffff44';
+//	item.fill = '#ffff44';
 }
 
 // ---------------------------------------------------------------------------------------
 
 CStateWelcome.prototype.eventStartUp = function( item)
 {
-	item.fill = '#ffffff';
+//	item.fill = '#ffffff';
 
 	this.game.state.start( 'board');
 }

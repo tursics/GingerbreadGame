@@ -30,16 +30,16 @@ function CScore( game)
 
 CScore.prototype.create = function()
 {
-	this.scoreText = this.game.add.text( 600, 26, '');
+	this.scoreText = this.game.add.text( 600, 60, '');
 	this.scoreGem( -1, -1, 0);
 
 	var gradient = this.scoreText.context.createLinearGradient( 0, 0, 0, this.scoreText.canvas.height);
-	gradient.addColorStop( 0, '#8ED6FF');   
+	gradient.addColorStop( 0, '#aEe6FF');   
 	gradient.addColorStop( 1, '#004CB3');
 
 //	this.scoreText.anchor.setTo( 0.5);
 	this.scoreText.font = 'Coaster';
-	this.scoreText.fontSize = 24;
+	this.scoreText.fontSize = 20;
 	this.scoreText.fill = gradient;
 	this.scoreText.align = 'center';
 	this.scoreText.stroke = '#000000';

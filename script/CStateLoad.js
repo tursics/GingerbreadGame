@@ -26,6 +26,10 @@ CStateLoad.prototype.preload = function()
 		var label = this.game.add.text( this.game.world.centerX, this.game.world.centerY, _('load_loading'), {font: '30px Courier', fill: '#ffffff'});
 		label.anchor.set( .5);
 
+		// needed buttons
+		this.load.image( 'buttonPause', 'art/buttonPause.png');
+		this.load.image( 'buttonPlay', 'art/buttonPlay.png');
+
 		// needed in CStateWelcome
 		this.load.image( 'bgWelcome', 'art/backgroundWelcome.png');
 		this.load.image( 'titleWelcome', 'art/titleWelcome.png');

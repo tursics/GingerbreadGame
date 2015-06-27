@@ -29,7 +29,7 @@ Der Quelltext steht unter einer MIT-Lizenz. Die Leveldaten sind abgeleitet aus d
 
 Die benutzten Fonts [Coaster](http://www.dafont.com/coaster.font) und [Yard Sale](http://www.dafont.com/yard-sale.font) sind "100% Free".
 
-Die Grafiken basieren auf [Winter Platformer Game Tileset](http://opengameart.org/content/winter-platformer-game-tileset) mit einer [CC0-Lizenz](http://creativecommons.org/publicdomain/zero/1.0/). Meine Ableitungen stelle ich unter eine CC-BY 4.0-Lizenz.
+Die Grafiken basieren auf [Winter Platformer Game Tileset](http://www.gameart2d.com/winter-platformer-game-tileset.html) und [Medieval Game Button Pack](http://www.gameart2d.com/free-medieval-game-button-pack.html) mit einer [CC0-Lizenz](http://creativecommons.org/publicdomain/zero/1.0/). Meine Ableitungen stelle ich unter eine CC-BY 4.0-Lizenz.
 
 # App
 
