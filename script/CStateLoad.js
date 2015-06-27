@@ -28,12 +28,15 @@ CStateLoad.prototype.preload = function()
 
 		// needed in CStateWelcome
 		this.load.image( 'bgWelcome', 'art/backgroundWelcome.png');
+		this.load.image( 'titleWelcome', 'art/titleWelcome.png');
+
+		// needed in CStateBoard
+		this.load.image( 'bgBoard', 'art/backgroundWelcome.png');
 
 		// needed in CStateLevels
 //		this.load.tilemap( 'sceneryMap', 'script/scenery.json', null, Phaser.Tilemap.TILED_JSON);
 //		this.load.image( 'sceneryTiles', 'art/sceneryTiles.png');
 //		this.load.image( 'sceneryBackground', 'art/sceneryBackground.png');
-		this.load.image( 'sky', 'art/sky.png');
 //		this.load.image( 'winterSet', 'art/winter.png');
 //		this.load.tilemap( 'winterMap', 'art/winter.json', null, Phaser.Tilemap.TILED_JSON);
 

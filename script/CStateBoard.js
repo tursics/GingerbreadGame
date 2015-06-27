@@ -32,7 +32,7 @@ CStateBoard.prototype.preload = function()
 CStateBoard.prototype.create = function()
 {
 	try {
-		this.game.add.sprite( 0, 0, 'sky');
+		this.game.add.sprite( 0, 0, 'bgBoard');
 
 		this.score = new CScore( this.game);
 		this.inits.board = new CBoard( this.inits, this.game, this.score);

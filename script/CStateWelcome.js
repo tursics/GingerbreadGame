@@ -21,10 +21,10 @@ CStateWelcome.prototype.create = function()
 		this.game.stage.backgroundColor = '#4364ac';
 		this.game.add.sprite( 0, 0, 'bgWelcome');
 
-		var labelTitle = this.game.add.text( this.game.world.centerX, 80, _('appTitle'), {font: '40px Coaster', fill: '#ffffff', align: 'center'});
-		labelTitle.anchor.set( .5);
+		var title = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2, 'titleWelcome');
+		title.anchor.set( .5);
 
-		var labelStart = this.game.add.text( this.game.world.centerX, this.game.world.centerY, _('welcome_play'), {font: '50px Coaster', fill: '#ffffff', align: 'center', backgroundColor: '#900090'});
+		var labelStart = this.game.add.text( this.game.world.centerX, this.game.world.centerY / 2 * 3, _('welcome_play'), {font: '50px Coaster', fill: '#ffffff', align: 'center', backgroundColor: '#900090'});
 		labelStart.anchor.set( .5);
 		labelStart.inputEnabled = true;
 		labelStart.events.onInputDown.add( this.eventStartDown, this);
