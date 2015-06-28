@@ -1,4 +1,4 @@
-# Little Piano
+# Nürnberger Lebkuchen
 
 Dieses Projekt ist mein Beitrag zu [Coding da Vinci](http://codingdavinci.de/). Ich hatte zehn Wochen vom 25. April bis 5. Juli 2015 zeigt gehabt diesen Prototypen zu entwickeln.
 
