@@ -34,17 +34,18 @@ CScore.prototype.create = function()
 	this.scoreGem( -1, -1, 0);
 
 	var gradient = this.scoreText.context.createLinearGradient( 0, 0, 0, this.scoreText.canvas.height);
-	gradient.addColorStop( 0, '#aEe6FF');   
-	gradient.addColorStop( 1, '#004CB3');
+	gradient.addColorStop( 0, '#beff1f');   
+	gradient.addColorStop( .49, '#beff1f');   
+	gradient.addColorStop( .51, '#83ff1f');
+	gradient.addColorStop( 1, '#83ff1f');
 
 //	this.scoreText.anchor.setTo( 0.5);
 	this.scoreText.font = 'Coaster';
 	this.scoreText.fontSize = 20;
 	this.scoreText.fill = gradient;
 	this.scoreText.align = 'center';
-	this.scoreText.stroke = '#000000';
-	this.scoreText.strokeThickness = 1;
-//	this.scoreText.setShadow( 5, 5, 'rgba(0,0,0,0.5)', 5);
+	this.scoreText.stroke = '#64331c';
+	this.scoreText.strokeThickness = 4;
 }
 
 // ---------------------------------------------------------------------------------------
