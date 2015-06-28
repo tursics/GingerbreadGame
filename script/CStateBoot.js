@@ -23,7 +23,7 @@ CStateBoot.prototype.create = function()
 			this.game.scale.startFullScreen( false);
 		}
 
-		this.game.stage.backgroundColor = '#4b0049';
+		this.game.stage.backgroundColor = '#4364ac';
 
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL; //EXACT_FIT;
