@@ -5,8 +5,8 @@
 function CBoard( init, game, score)
 {
 	// configurable
-	this.MAX_COL = 9;
-	this.MAX_ROW = 9;
+	this.MAX_COL = 8;
+	this.MAX_ROW = 8;
 
 	this.init = init;
 	this.game = game;
