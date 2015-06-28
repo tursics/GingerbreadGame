@@ -20,6 +20,7 @@ function CInit()
 	this.board = null;
 	this.touch = null;
 	this.level = null;
+	this.currentLevel = 0;
 
 	try {
 	} catch(e) {
@@ -34,8 +35,9 @@ CInit.prototype.eventReady = function()
 	try {
 		this.game = new Phaser.Game( 800, 600, Phaser.AUTO, '');
 
-		this.game.state.add( 'boot', new CStateBoot( this, this.game));
 		this.game.state.add( 'board', new CStateBoard( this, this.game));
+		this.game.state.add( 'boot', new CStateBoot( this, this.game));
+		this.game.state.add( 'levels', new CStateLevels( this, this.game));
 		this.game.state.add( 'load', new CStateLoad( this, this.game));
 		this.game.state.add( 'welcome', new CStateWelcome( this, this.game));
 

@@ -38,13 +38,9 @@ CStateBoard.prototype.create = function()
 		this.inits.board = new CBoard( this.inits, this.game, this.score);
 		this.inits.touch = new CTouchLevel( this.inits, this.game, this.inits.board);
 
-		var buttonPause = this.game.add.sprite( 650, 480, 'buttonPause');
-//		buttonPause.anchor.set( .5);
-		buttonPause.inputEnabled = true;
-		buttonPause.events.onInputDown.add( this.eventPauseDown, this);
-		buttonPause.events.onInputUp.add( this.eventPauseUp, this);
+		this.game.add.button( 650, 480, 'buttonPause', this.eventButtonPause, this, 2, 1, 0);
 
-		this.inits.board.spawnBoard( this.inits.touch, this.inits.level.levels[1]);
+		this.inits.board.spawnBoard( this.inits.touch, this.inits.level.levels[this.inits.currentLevel]);
 		this.inits.touch.thaw();
 	} catch( e) {
 		if( CConfig.debug) {
@@ -55,18 +51,9 @@ CStateBoard.prototype.create = function()
 
 // ---------------------------------------------------------------------------------------
 
-CStateBoard.prototype.eventPauseDown = function( item)
+CStateBoard.prototype.eventButtonPause = function( item)
 {
-//	item.fill = '#ffff44';
-}
-
-// ---------------------------------------------------------------------------------------
-
-CStateBoard.prototype.eventPauseUp = function( item)
-{
-//	item.fill = '#ffffff';
-
-	this.game.state.start( 'welcome');
+	this.game.state.start( 'levels');
 }
 
 // ---------------------------------------------------------------------------------------

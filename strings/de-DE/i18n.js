@@ -8,5 +8,7 @@ gDict['de'] = {
 
 	'welcome_play': 'Spielen!',
 
+	'levels_select': 'Level auswählen',
+
 	'board_score': 'Punkte:',
 };

@@ -24,11 +24,8 @@ CStateWelcome.prototype.create = function()
 		var title = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2, 'titleWelcome');
 		title.anchor.set( .5);
 
-		var buttonPlay = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2 * 3, 'buttonPlay');
-		buttonPlay.anchor.set( .5);
-		buttonPlay.inputEnabled = true;
-		buttonPlay.events.onInputDown.add( this.eventStartDown, this);
-		buttonPlay.events.onInputUp.add( this.eventStartUp, this);
+		var button = this.game.add.button( this.game.world.centerX, this.game.world.centerY / 2 * 3, 'buttonPlay', this.eventButtonPlay, this, 2, 1, 0);
+		button.anchor.setTo( .5);
 
 //		var test = this.game.input.keyboard.addKey( Phaser.Keyboard.T);
 //		test.onDown.addOnce( this.test, this);
@@ -41,18 +38,9 @@ CStateWelcome.prototype.create = function()
 
 // ---------------------------------------------------------------------------------------
 
-CStateWelcome.prototype.eventStartDown = function( item)
+CStateWelcome.prototype.eventButtonPlay = function( item)
 {
-//	item.fill = '#ffff44';
-}
-
-// ---------------------------------------------------------------------------------------
-
-CStateWelcome.prototype.eventStartUp = function( item)
-{
-//	item.fill = '#ffffff';
-
-	this.game.state.start( 'board');
+	this.game.state.start( 'levels');
 }
 
 // ---------------------------------------------------------------------------------------
