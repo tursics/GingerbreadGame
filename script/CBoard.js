@@ -7,6 +7,10 @@ function CBoard( init, game, score)
 	// configurable
 	this.MAX_COL = 8;
 	this.MAX_ROW = 8;
+	this.MAX_COLOR = 5;
+	this.OFFSET_NORMAL = this.MAX_COLOR * 0;
+	this.OFFSET_STRIPES_H = this.MAX_COLOR * 1;
+	this.OFFSET_STRIPES_V = this.MAX_COLOR * 2;
 
 	this.init = init;
 	this.game = game;
@@ -89,14 +93,22 @@ CBoard.prototype.solveBoard = function( touch, gemObj, callback)
 {
 	var x = -1;
 	var y = -1;
+	var altX = -1;
+	var altY = -1;
 	if( gemObj !== null) {
 		x = gemObj.posX;
 		y = gemObj.posY;
+
+		if( touch.swappedGemObj != null) {
+			altX = touch.swappedGemObj.posX;
+			altY = touch.swappedGemObj.posY;
+		}
 	}
 
-	var solved = this.solve.solveGemsAtPos( x, y);
+	var solved = this.solve.solveGemsAtPos( x, y, altX, altY);
 
 	if( solved) {
+		this.solve.solveStripedGems( x, y);
 		setTimeout( function() {
 			try {
 				callback.apply( this, [true]);
@@ -302,7 +314,7 @@ CBoard.prototype.calcGemId = function( posX, posY)
 
 CBoard.prototype.randomizeGemColor = function( gemObj)
 {
-	gemObj.frame = this.game.rnd.integerInRange( 0, gemObj.animations.frameTotal - 1);
+	gemObj.frame = this.game.rnd.integerInRange( 0, this.MAX_COLOR - 1);
 }
 
 // ---------------------------------------------------------------------------------------
