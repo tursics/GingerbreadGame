@@ -16,12 +16,63 @@ function CBoard( init, game, score)
 	this.game = game;
 	this.score = score;
 	this.solve = null;
+	this.bgTiles = null;
+	this.x = 0;
+	this.y = 0;
 
 	try {
 		this.solve = new CSolve( this.init, this, this.score);
+
+		var width = this.MAX_COL * this.init.GEM_SIZE_SPACED - this.init.GEM_SPACING;
+		var height = this.MAX_ROW * this.init.GEM_SIZE_SPACED - this.init.GEM_SPACING;
+		this.x = this.game.world.width - width - this.init.GEM_SIZE / 2;
+		this.y = (this.game.world.height - height) / 2;
+
+		this.create();
 	} catch(e) {
 		console.error( 'CBoard not ready');
 	}
+}
+
+// ---------------------------------------------------------------------------------------
+
+CBoard.prototype.create = function()
+{
+	this.bgTiles = this.game.add.group();
+	var tile = null;
+
+	for( var x = 0; x < this.MAX_COL; ++x) {
+		for( var y = 0; y < this.MAX_ROW; ++y) {
+			tile = this.bgTiles.create( this.x + x * this.init.GEM_SIZE_SPACED, this.y + y * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+			tile.frame = 0;
+		}
+
+		tile = this.bgTiles.create( this.x + x * this.init.GEM_SIZE_SPACED, this.y - this.init.GEM_SIZE_SPACED, 'spriteBoard');
+		tile.frame = 7;
+
+		tile = this.bgTiles.create( this.x + x * this.init.GEM_SIZE_SPACED, this.y + this.MAX_ROW * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+		tile.frame = 4;
+	}
+
+	for( var y = 0; y < this.MAX_ROW; ++y) {
+		tile = this.bgTiles.create( this.x - this.init.GEM_SIZE_SPACED, this.y + y * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+		tile.frame = 1;
+
+		tile = this.bgTiles.create( this.x + this.MAX_COL * this.init.GEM_SIZE_SPACED, this.y + y * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+		tile.frame = 2;
+	}
+
+	tile = this.bgTiles.create( this.x - this.init.GEM_SIZE_SPACED, this.y - this.init.GEM_SIZE_SPACED, 'spriteBoard');
+	tile.frame = 6;
+
+	tile = this.bgTiles.create( this.x + this.MAX_COL * this.init.GEM_SIZE_SPACED, this.y - this.init.GEM_SIZE_SPACED, 'spriteBoard');
+	tile.frame = 8;
+
+	tile = this.bgTiles.create( this.x - this.init.GEM_SIZE_SPACED, this.y + this.MAX_ROW * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+	tile.frame = 3;
+
+	tile = this.bgTiles.create( this.x + this.MAX_COL * this.init.GEM_SIZE_SPACED, this.y + this.MAX_ROW * this.init.GEM_SIZE_SPACED, 'spriteBoard');
+	tile.frame = 5;
 }
 
 // ---------------------------------------------------------------------------------------
@@ -43,7 +94,7 @@ CBoard.prototype.spawnBoard = function( touch, level)
 
 	for( var x = 0; x < this.MAX_COL; ++x) {
 		for( var y = 0; y < this.MAX_ROW; ++y) {
-			var gem = this.init.gems.create( x * this.init.GEM_SIZE_SPACED, y * this.init.GEM_SIZE_SPACED, 'GEMS');
+			var gem = this.init.gems.create( this.x + x * this.init.GEM_SIZE_SPACED, this.y + y * this.init.GEM_SIZE_SPACED, 'GEMS');
 			gem.name = 'gem' + x.toString() + 'x' + y.toString();
 			gem.mark = this.init.VOID;
 			gem.alpha = 1;
@@ -209,7 +260,7 @@ CBoard.prototype.refillBoard = function( callback)
 			if( gemObj === null) {
 				++gemsMissingFromCol;
 				gemObj = this.init.gems.getFirstDead();
-				gemObj.reset( x * this.init.GEM_SIZE_SPACED, -gemsMissingFromCol * this.init.GEM_SIZE_SPACED);
+				gemObj.reset( this.x + x * this.init.GEM_SIZE_SPACED, this.y - gemsMissingFromCol * this.init.GEM_SIZE_SPACED);
 				gemObj.mark = this.init.VOID;
 				gemObj.alpha = 1;
 				this.randomizeGemColor( gemObj);
@@ -259,8 +310,8 @@ CBoard.prototype.tweenGemPos = function( gemObj, newPosX, newPosY, durationMulti
 	}
 
 	return this.game.add.tween( gemObj).to({
-		x: newPosX * this.init.GEM_SIZE_SPACED,
-		y: newPosY * this.init.GEM_SIZE_SPACED},
+		x: this.x + newPosX * this.init.GEM_SIZE_SPACED,
+		y: this.y + newPosY * this.init.GEM_SIZE_SPACED},
 		100 * durationMultiplier, Phaser.Easing.Linear.None, true);
 }
 

@@ -54,6 +54,7 @@ CStateLoad.prototype.preload = function()
 //		this.load.tilemap( 'winterMap', 'art/winter.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.spritesheet( 'GEMS', 'art/items.png', this.inits.GEM_SIZE, this.inits.GEM_SIZE);
+		this.load.spritesheet( 'spriteBoard', 'art/spriteBoard.png', this.inits.GEM_SIZE, this.inits.GEM_SIZE);
 
 		this.load.text( 'level', 'script/level.json');
 	} catch( e) {

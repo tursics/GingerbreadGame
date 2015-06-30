@@ -11,4 +11,6 @@ gDict['en'] = {
 	'levels_select': 'Level Select',
 
 	'board_score': 'Score:',
+	'board_moves': 'Moves:',
+	'board_goal': 'Goal:',
 };

@@ -30,7 +30,7 @@ function CScore( game)
 
 CScore.prototype.create = function()
 {
-	this.scoreText = this.game.add.text( 600, 60, '');
+	this.scoreText = this.game.add.text( 60, 60, '');
 	this.scoreGem( -1, -1, 0);
 
 	var gradient = this.scoreText.context.createLinearGradient( 0, 0, 0, this.scoreText.canvas.height);
