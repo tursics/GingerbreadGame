@@ -24,7 +24,7 @@ CStateWelcome.prototype.create = function()
 		var title = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY / 2, 'titleWelcome');
 		title.anchor.set( .5);
 
-		var button = this.game.add.button( this.game.world.centerX, this.game.world.centerY / 2 * 3, 'buttonPlay', this.eventButtonPlay, this, 2, 1, 0);
+		var button = this.game.add.button( this.game.world.centerX, this.game.world.centerY / 2 * 3, 'buttonPlay', this.eventButtonPlay, this, 1, 0, 2);
 		button.anchor.setTo( .5);
 
 //		var test = this.game.input.keyboard.addKey( Phaser.Keyboard.T);
@@ -47,7 +47,6 @@ CStateWelcome.prototype.eventButtonPlay = function( item)
 
 CStateWelcome.prototype.test = function()
 {
-	this.game.state.start( 'levels');
 }
 
 // ---------------------------------------------------------------------------------------

@@ -48,17 +48,17 @@ CStateLevels.prototype.create = function()
 			}
 		}
 
-		var buttonPrevious = this.game.add.button( this.game.world.centerX / 2 - 50, this.game.world.height / 2, 'buttonPrevious', this.eventButtonPrevious, this, 2, 1, 0);
+		var buttonPrevious = this.game.add.button( this.game.world.centerX / 2 - 50, this.game.world.height / 2, 'buttonPrevious', this.eventButtonPrevious, this, 3, 3, 3);
 		buttonPrevious.anchor.setTo( .5);
 		buttonPrevious.height *= .75;
 		buttonPrevious.width *= .75;
 
-		var buttonNext = this.game.add.button( this.game.world.centerX / 2 * 3 + 50, this.game.world.height / 2, 'buttonNext', this.eventButtonNext, this, 2, 1, 0);
+		var buttonNext = this.game.add.button( this.game.world.centerX / 2 * 3 + 50, this.game.world.height / 2, 'buttonNext', this.eventButtonNext, this, 3, 3, 3);
 		buttonNext.anchor.setTo( .5);
 		buttonNext.height *= .75;
 		buttonNext.width *= .75;
 
-		var buttonHome = this.game.add.button( this.game.world.centerX, this.game.world.height - 80, 'buttonHome', this.eventButtonHome, this, 2, 1, 0);
+		var buttonHome = this.game.add.button( this.game.world.centerX, this.game.world.height - 80, 'buttonHome', this.eventButtonHome, this, 1, 0, 2);
 		buttonHome.anchor.setTo( .5);
 	} catch( e) {
 		if( CConfig.debug) {
@@ -88,9 +88,9 @@ CStateLevels.prototype.addLevelButton = function( pos, level)
 
 	var button;
 	if( '' == level) {
-		button = this.game.add.button( x, y, 'buttonLocked', this.eventButtonLevelLocked, this, 2, 1, 0);
+		button = this.game.add.button( x, y, 'buttonLocked', this.eventButtonLevelLocked, this, 3, 3, 3);
 	} else {
-		button = this.game.add.button( x, y, 'buttonRound', this.eventButtonLevel, this, 2, 1, 0);
+		button = this.game.add.button( x, y, 'buttonRound', this.eventButtonLevel, this, 1, 0, 2);
 
 		var text = this.game.add.text( 0, 0, level);
 

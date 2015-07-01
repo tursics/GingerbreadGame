@@ -27,14 +27,14 @@ CStateLoad.prototype.preload = function()
 		label.anchor.set( .5);
 
 		// needed buttons
-		this.load.image( 'buttonHome', 'art/buttonHome.png');
-		this.load.image( 'buttonLocked', 'art/buttonLocked.png');
-		this.load.image( 'buttonNext', 'art/buttonNext.png');
-		this.load.image( 'buttonPause', 'art/buttonPause.png');
-		this.load.image( 'buttonPlay', 'art/buttonPlay.png');
-		this.load.image( 'buttonPrevious', 'art/buttonPrevious.png');
-		this.load.image( 'buttonRound', 'art/buttonRound.png');
-		this.load.image( 'buttonRectangle', 'art/buttonRectangle.png');
+		this.load.spritesheet( 'buttonHome', 'art/buttonHome.png', 80, 86);
+		this.load.spritesheet( 'buttonLocked', 'art/buttonLocked.png', 80, 86);
+		this.load.spritesheet( 'buttonNext', 'art/buttonNext.png', 80, 86);
+		this.load.spritesheet( 'buttonPause', 'art/buttonPause.png', 80, 86);
+		this.load.spritesheet( 'buttonPlay', 'art/buttonPlay.png', 80, 86);
+		this.load.spritesheet( 'buttonPrevious', 'art/buttonPrevious.png', 80, 86);
+//		this.load.image( 'buttonRectangle', 'art/buttonRectangle.png');
+		this.load.spritesheet( 'buttonRound', 'art/buttonRound.png', 80, 86);
 
 		// needed in CStateWelcome
 		this.load.image( 'bgWelcome', 'art/backgroundWelcome.png');
