@@ -1,7 +1,11 @@
 ﻿{
 	"levels": [
 	{
-		"label": 1,
+		"label": "A",
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
 		"design": [
 			"ABABABAB",
 			"BABABABA",
@@ -14,7 +18,195 @@
 		]
 	},
 	{
-		"label": 2,
+		"label": "B",
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "1",
+		"title": "Feinste Makronen- Lebkuchen",
+		"ingredients": [
+			"5 Pfund Mandeln",
+			"10 Pfund Zucker",
+			"2 Pfund Mehl",
+			"1 Pfund Citronat",
+			"1 Pfund Orangeat",
+			"1 Stück Citrone abgerieben",
+			"5 Gramm Amonium oder Hirschhornsalz",
+			"1.5 Liter Eiweis"
+		],
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "2",
+		"title": "Feine weisse Lebkuchen",
+		"ingredients": [
+			"3 Pfund Zucker",
+			"4 Pfund Mehl",
+			"25 Gramm ganzen Anis",
+			"20 Gramm Amonium",
+			"5 Gramm Pottasche",
+			"25 Stück Eier",
+			"125 Gramm Syrup"
+		],
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "3",
+		"title": "Anis-Lebkuchen",
+		"ingredients": [
+			"5 Pfund Zucker",
+			"4 Pfund Mehl",
+			"1 Pfund Orangeat",
+			"1 Pfund Citronat",
+			"2 Stück abgeriebene Citronen",
+			"30 Gramm Anis",
+			"25 Gramm Amonium",
+			"32 Stück Eier",
+			"200 Gramm Syrup"
+		],
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "4",
+		"title": "Honigteig",
+		"ingredients": [
+			"50 Pfund Honig",
+			"50 Pfund Mehl"
+		],
+		"goal": [
+			"50 H",
+			"50 F"
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "5",
+		"title": "Honigteig",
+		"ingredients": [
+			"50 Pfund Honig",
+			"55 Pfund Mehl",
+			"1.5 Liter Wasser"
+		],
+		"goal": [
+			"50 H",
+			"55 F",
+			"15 W"
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "6",
+		"title": "Feinste Makronenplätzchen",
+		"ingredients": [
+			"5 Pfund Mandeln",
+			"10 Pfund Zucker",
+			"1.5 Pfund Mehl",
+			"250 Gramm Citronat",
+			"250 Gramm Orangeat",
+			"2 Stück Citronen"
+		],
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
+		"design": [
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR",
+			"RRRRRRRR"
+		]
+	},
+	{
+		"label": "7",
+		"title": "Cocosnuss-Makronen",
+		"ingredients": [
+			"1.2 Pfund Cocosnüsse",
+			"2 Pfund Zucker",
+			"50 Gramm Citronat und Orangeat",
+			"22 Stück Eiweis"
+		],
+		"goal": [
+		],
+		"points": 10000,
+		"moves": 20,
 		"design": [
 			"RRRRRRRR",
 			"RRRRRRRR",
