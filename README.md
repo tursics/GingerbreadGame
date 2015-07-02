@@ -6,6 +6,8 @@ Dieses Projekt ist mein Beitrag zu [Coding da Vinci](http://codingdavinci.de/). 
 
 Das Spielprinzip ist bekannt, denn man sieht es täglich in Bus und Bahn: Fleißig werden Zuckerdrops und bunte Bonbons zu 3er-, 4er- oder 5er-Kombinationen zusammengeschoben, um sich die Zeit zu vertreiben und das nächsthöhere Level zu erklimmen. Aber statt mit Zuckerdrops und Bonbons hantiert man in dieser online spielbaren App mit Zucker, Mehl und Zimt – diese sollen zu leckeren Lebkuchen, Makronen und Pfeffernüssen verschoben, äh, gebacken werden. In den sich im Schwierigkeitsgrad steigernden Leveln bäckt man über 100 Jahre alte Originalrezepte von Nürnberger Lebkuchen nach. Und natürlich darf man Spielfreude und Rezepte auch mit seinen Freunden teilen.
 
+![Level](/preview/level.png)
+
 # Beschreibung
 
 Bereits im letzten Jahr in der Adventszeit bin ich auf das Rezeptbuch "Die Nürnberger Lebkuchen" aus dem Jahre 1898 bei der Sächsischen Landesbibliothek – Staats- und Universitätsbibliothek Dresden (SLUB) aufmerksam geworden. Dort sind Originalrezepte für Lebkuchen, Makronen und Pfeffernüsse aus Nürnberg niedergeschrieben. Als Coding da Vinci dieses Jahr startete und die SLUB als Kulturinstitution vertreten war, habe ich sofort nachgeschaut und das Rezeptbuch in der unter der CC-BY-SA lizensierten Sammlung "Bibliotheca Gastronomica" wiedergefunden.
@@ -17,6 +19,8 @@ Im Rezeptbuch gibt es auf über 100 Seiten viele Rezepte typisch deutscher Adven
 Noch ist das Spiel nicht fertig und läuft lediglich im Browser. Ideal wäre es als App, die zur Vorweihnachtszeit in die App-Stores entlassen wird. Denn thematisch würde es ideal zu dieser Zeit passen.
 
 Ich verwende intern die Bibliothek phaser.js. Diese ist speziell auf Browserspiele ausgelegt und nimmt mir viel Arbeit ab, z.B. um auf den verschiedenen Geräteklassen optimal zu laufen. Ein Teil der Arbeit ist das Programmieren, ein anderer die Erstellung der verwendeten Grafiken. Im Internet gibt es viele Vorlagen als Inspiration. Das Winter- oder eher schon Weihnachts-Thema eignet sich hervorragen, wurden aus Deutschland doch viele Weihnachtstraditionen in alle Welt getragen. Beim Level-Design und Übertragen der Rezepte aus dem Buch in das Spiel bekam ich tatkräftige Unterstützung von meinen Kindern.
+
+![Level](/preview/selection.png)
 
 # Datenauswahl
 
