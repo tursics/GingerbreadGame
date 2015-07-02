@@ -382,6 +382,10 @@ CBoard.prototype.setGemColor = function( gemObj, item)
 		gemObj.frame = 3;
 	} else if( 'E' == item) {
 		gemObj.frame = 4;
+	} else if( 'F' == item) { // flour
+		gemObj.frame = 3;
+	} else if( 'H' == item) { // honey
+		gemObj.frame = 1;
 	} else {
 		this.randomizeGemColor( gemObj);
 	}

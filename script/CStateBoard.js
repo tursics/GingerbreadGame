@@ -42,18 +42,38 @@ CStateBoard.prototype.create = function()
 		this.inits.board = new CBoard( this.inits, this.game, this.score);
 		this.inits.touch = new CTouchLevel( this.inits, this.game, this.inits.board);
 
-		this.moves = 40;
+		var levelData = this.inits.level.levels[this.inits.currentLevel];
+		this.moves = levelData.moves;
 		this.movesText = this.addText( 60, 90, 20);
 		this.movesText.text = _('board_moves') + ' ' + this.moves;
 
-		this.goal = 12000;
+		this.goal = levelData.points;
 		this.goalText = this.addText( 60, 120, 20);
 		this.goalText.text = _('board_goal') + ' ' + this.goal;
+
+		this.recipe = levelData.title;
+		this.recipeText = this.addText( this.inits.board.x / 2, 190, 20);
+		this.recipeText.text = this.recipe.toUpperCase();
+		this.recipeText.anchor.setTo( .5);
+
+		for( var i = 0; i < levelData.goal.length; ++i) {
+			var item = levelData.goal[i].split( ' ');
+			var img = this.game.add.sprite( this.inits.board.x / 2 - 25, 230 + i * 50, 'GEMS');
+			this.inits.board.setGemColor( img, item[1]);
+			img.width = 42;
+			img.height = 42;
+			img.anchor.setTo( .5);
+
+			var txt = levelData.points;
+			txt = this.addText( this.inits.board.x / 2 + 8, 230 + i * 50, 20);
+			txt.text = item[0] + 'x';
+			txt.anchor.setTo( 0, .5);
+		}
 
 		var buttonPause = this.game.add.button( this.inits.board.x / 2, this.game.world.height - 86, 'buttonPause', this.eventButtonPause, this, 1, 0, 2);
 		buttonPause.anchor.setTo( .5);
 
-		this.inits.board.spawnBoard( this.inits.touch, this.inits.level.levels[this.inits.currentLevel]);
+		this.inits.board.spawnBoard( this.inits.touch, levelData);
 		this.inits.touch.thaw();
 	} catch( e) {
 		if( CConfig.debug) {

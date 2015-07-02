@@ -2,6 +2,9 @@
 	"levels": [
 	{
 		"label": "A",
+		"title": "Test-Level A",
+		"ingredients": [
+		],
 		"goal": [
 		],
 		"points": 10000,
@@ -19,6 +22,9 @@
 	},
 	{
 		"label": "B",
+		"title": "Test-Level B",
+		"ingredients": [
+		],
 		"goal": [
 		],
 		"points": 10000,
