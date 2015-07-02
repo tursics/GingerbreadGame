@@ -13,6 +13,48 @@ function CScore( game)
 	this.GEM_CROSS = 6000;
 	this.GEM_FIVE = 12000;
 
+	// Three Honig: 100
+	// Three Ei: 150
+	// Three Wasser: 125
+	// Three Nuss: 140
+	// Three Mehl: 120
+
+	// Four Honig: 1010
+	// Four Ei: 1550
+	// Four Wasser: 1225
+	// Four Nuss: 1440
+	// Four Mehl: 1220
+
+	// Square Honig: 3030
+	// Square Ei: 3550
+	// Square Wasser: 3225
+	// Square Nuss: 3440
+	// Square Mehl: 3220
+
+	// T and L Honig: 4040
+	// T and L Ei: 4550
+	// T and L Wasser: 4225
+	// T and L Nuss: 4440
+	// T and L Mehl: 4220
+
+	// Cross Honig: 5050
+	// Cross Ei: 5550
+	// Cross Wasser: 5225
+	// Cross Nuss: 5440
+	// Cross Mehl: 5220
+
+	// Five Honig: 10010
+	// Five Ei: 10550
+	// Five Wasser: 10225
+	// Five Nuss: 10440
+	// Five Mehl: 10220
+
+	// Five-T Five-Cross Honig: 15010
+	// Five-T Five-Cross Ei: 15550
+	// Five-T Five-Cross Wasser: 15225
+	// Five-T Five-Cross Nuss: 15440
+	// Five-T Five-Cross Mehl: 15220
+
 	// variable
 	this.game = game;
 	this.scoreText = null;
