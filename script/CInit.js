@@ -6,7 +6,7 @@ function CInit()
 {
 	// configurable
 	this.GEM_SIZE = 64;
-	this.GEM_SPACING = 2;
+	this.GEM_SPACING = 0;
 	this.GEM_SIZE_SPACED = this.GEM_SIZE + this.GEM_SPACING;
 
 	// const
