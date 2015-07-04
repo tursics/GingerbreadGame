@@ -6,18 +6,19 @@
 		"ingredients": [
 		],
 		"goal": [
+			"10 F"
 		],
-		"points": 10000,
-		"moves": 20,
+		"points": 5000,
+		"moves": 10,
 		"design": [
-			"ABABABAB",
-			"BABABABA",
-			"ABABABAB",
-			"BABABABA",
-			"ABABABAB",
-			"BABABABA",
-			"ABABABAB",
-			"BABABABA"
+			"EHEHEHEH",
+			"HEHEHEHE",
+			"EHEHEHEH",
+			"HEHEHEHE",
+			"EHEHEHEH",
+			"HEHEHEHE",
+			"EHEHEHEH",
+			"HEHEHEHE"
 		]
 	},
 	{
@@ -54,18 +55,23 @@
 			"1.5 Liter Eiweis"
 		],
 		"goal": [
+			"5 A",
+			"3 E",
+			"2 F",
+			"2 F",
+			"10 S"
 		],
 		"points": 10000,
 		"moves": 20,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -81,18 +87,21 @@
 			"125 Gramm Syrup"
 		],
 		"goal": [
+			"25 E",
+			"4 F",
+			"3 S"
 		],
 		"points": 10000,
 		"moves": 20,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -110,18 +119,21 @@
 			"200 Gramm Syrup"
 		],
 		"goal": [
+			"32 E",
+			"4 F",
+			"5 S"
 		],
 		"points": 10000,
 		"moves": 20,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -136,16 +148,16 @@
 			"50 F"
 		],
 		"points": 10000,
-		"moves": 20,
+		"moves": 40,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -162,16 +174,16 @@
 			"15 W"
 		],
 		"points": 10000,
-		"moves": 20,
+		"moves": 40,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -186,18 +198,21 @@
 			"2 Stück Citronen"
 		],
 		"goal": [
+			"5 A",
+			"3 F",
+			"10 S"
 		],
 		"points": 10000,
 		"moves": 20,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	},
 	{
@@ -210,18 +225,20 @@
 			"22 Stück Eiweis"
 		],
 		"goal": [
+			"22 E",
+			"2 S"
 		],
 		"points": 10000,
 		"moves": 20,
 		"design": [
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR",
-			"RRRRRRRR"
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF",
+			"AEFHSAEF",
+			"AFSSEEFA",
+			"SHHSEFAS",
+			"FEFEASSF"
 		]
 	}
 	]
