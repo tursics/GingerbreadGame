@@ -159,6 +159,10 @@ CBoard.prototype.solveBoard = function( touch, gemObj, callback)
 	var solved = this.solve.solveGemsAtPos( x, y, altX, altY);
 
 	if( solved) {
+		if( gemObj !== null) {
+			this.score.scoreMove();
+		}
+
 		this.solve.solveStripedGems( x, y);
 		setTimeout( function() {
 			try {
@@ -204,9 +208,12 @@ CBoard.prototype.killGems = function()
 
 	this.init.gems.forEach( function( gem) {
 		if( gem.mark == board.init.DEADEN) {
+			board.score.scoreGoalGem( board.solve.getGemColor( gem));
 			gem.kill();
 			gem.alpha = 1;
 			board.setGemPos( gem, -1, -1);
+		} else if( gem.mark == board.init.BUSY) {
+			board.score.scoreGoalGem( board.solve.getGemColor( gem));
 		}
 		gem.mark = board.init.VOID;
 	});
@@ -372,20 +379,16 @@ CBoard.prototype.randomizeGemColor = function( gemObj)
 
 CBoard.prototype.setGemColor = function( gemObj, item)
 {
-	if( 'A' == item) {
-		gemObj.frame = 0;
-	} else if( 'B' == item) {
-		gemObj.frame = 1;
-	} else if( 'C' == item) {
+	if( 'A' == item) { // almond
 		gemObj.frame = 2;
-	} else if( 'D' == item) {
-		gemObj.frame = 3;
-	} else if( 'E' == item) {
-		gemObj.frame = 4;
+	} else if( 'E' == item) { // egg
+		gemObj.frame = 0;
 	} else if( 'F' == item) { // flour
 		gemObj.frame = 3;
 	} else if( 'H' == item) { // honey
 		gemObj.frame = 1;
+	} else if( 'S' == item) { // sugar
+		gemObj.frame = 4;
 	} else {
 		this.randomizeGemColor( gemObj);
 	}

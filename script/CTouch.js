@@ -2,7 +2,7 @@
 // class for touch input
 // ---------------------------------------------------------------------------------------
 
-function CTouchLevel( init, game, board)
+function CTouchLevel( init, game, board, score)
 {
 	this.FOURDIRECTIONS = 4;
 	this.EIGHTDIRECTIONS = 8;
@@ -10,6 +10,7 @@ function CTouchLevel( init, game, board)
 	this.init = init;
 	this.game = game;
 	this.board = board;
+	this.score = score;
 	this.freezeCount = 0;
 	this.selectedGemObj = null;
 	this.selectedGemPos;
@@ -127,6 +128,10 @@ CTouchLevel.prototype.OnDraging = function( pointer, x, y, fromClick)
 
 				touch.board.garbageCollection( touch, gemObj, function() {
 					touch.thaw();
+
+					if( 0 == touch.score.moves) {
+						touch.game.state.start( 'levels');
+					}
 				});
 			});
 		}

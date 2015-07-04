@@ -2,7 +2,7 @@
 //---        CScore.js         ---
 //--------------------------------
 
-function CScore( game)
+function CScore( inits, game)
 {
 	// configurable
 	this.GEM = 40;
@@ -13,55 +13,60 @@ function CScore( game)
 	this.GEM_CROSS = 6000;
 	this.GEM_FIVE = 12000;
 
-	// Three Honig: 100
-	// Three Ei: 150
-	// Three Wasser: 125
-	// Three Nuss: 140
-	// Three Mehl: 120
+	// Three honey: 100
+	// Three egg: 150
+	// Three sugar: 125
+	// Three almond: 140
+	// Three flour: 120
 
-	// Four Honig: 1010
-	// Four Ei: 1550
-	// Four Wasser: 1225
-	// Four Nuss: 1440
-	// Four Mehl: 1220
+	// Four honey: 1010
+	// Four egg: 1550
+	// Four sugar: 1225
+	// Four almond: 1440
+	// Four flour: 1220
 
-	// Square Honig: 3030
-	// Square Ei: 3550
-	// Square Wasser: 3225
-	// Square Nuss: 3440
-	// Square Mehl: 3220
+	// Square honey: 3030
+	// Square egg: 3550
+	// Square sugar: 3225
+	// Square almond: 3440
+	// Square flour: 3220
 
-	// T and L Honig: 4040
-	// T and L Ei: 4550
-	// T and L Wasser: 4225
-	// T and L Nuss: 4440
-	// T and L Mehl: 4220
+	// T and L honey: 4040
+	// T and L egg: 4550
+	// T and L sugar: 4225
+	// T and L almond: 4440
+	// T and L flour: 4220
 
-	// Cross Honig: 5050
-	// Cross Ei: 5550
-	// Cross Wasser: 5225
-	// Cross Nuss: 5440
-	// Cross Mehl: 5220
+	// Cross honey: 5050
+	// Cross egg: 5550
+	// Cross sugar: 5225
+	// Cross almond: 5440
+	// Cross flour: 5220
 
-	// Five Honig: 10010
-	// Five Ei: 10550
-	// Five Wasser: 10225
-	// Five Nuss: 10440
-	// Five Mehl: 10220
+	// Five honey: 10010
+	// Five egg: 10550
+	// Five sugar: 10225
+	// Five almond: 10440
+	// Five flour: 10220
 
-	// Five-T Five-Cross Honig: 15010
-	// Five-T Five-Cross Ei: 15550
-	// Five-T Five-Cross Wasser: 15225
-	// Five-T Five-Cross Nuss: 15440
-	// Five-T Five-Cross Mehl: 15220
+	// Five-T Five-Cross honey: 15010
+	// Five-T Five-Cross egg: 15550
+	// Five-T Five-Cross sugar: 15225
+	// Five-T Five-Cross almond: 15440
+	// Five-T Five-Cross flour: 15220
 
 	// variable
+	this.inits = inits;
 	this.game = game;
-	this.scoreText = null;
 	this.score = 0;
+	this.scoreText = null;
+	this.moves = 0;
+	this.movesText = null;
+	this.goal = 0;
+	this.goalText = null;
+	this.gems = [];
 
 	try {
-		this.score = 0;
 		this.create();
 	} catch(e) {
 		console.error( 'CScore not ready', e);
@@ -72,22 +77,42 @@ function CScore( game)
 
 CScore.prototype.create = function()
 {
-	this.scoreText = this.game.add.text( 60, 60, '');
+	var levelData = this.inits.level.levels[this.inits.currentLevel];
+
+	this.score = 0;
+	this.scoreText = this.addText( 60, 60, 20);
 	this.scoreGem( -1, -1, 0);
 
-	var gradient = this.scoreText.context.createLinearGradient( 0, 0, 0, this.scoreText.canvas.height);
+	this.moves = levelData.moves + 1;
+	this.movesText = this.addText( 60, 90, 20);
+	this.scoreMove();
+
+	this.goal = levelData.points;
+	this.goalText = this.addText( 60, 120, 20);
+	this.goalText.text = _('board_goal') + ' ' + this.goal;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CScore.prototype.addText = function( x, y, fontSize)
+{
+	var text = this.game.add.text( x, y, '');
+
+	var gradient = text.context.createLinearGradient( 0, 0, 0, text.canvas.height);
 	gradient.addColorStop( 0, '#beff1f');   
 	gradient.addColorStop( .49, '#beff1f');   
 	gradient.addColorStop( .51, '#83ff1f');
 	gradient.addColorStop( 1, '#83ff1f');
 
-//	this.scoreText.anchor.setTo( 0.5);
-	this.scoreText.font = 'Coaster';
-	this.scoreText.fontSize = 20;
-	this.scoreText.fill = gradient;
-	this.scoreText.align = 'center';
-	this.scoreText.stroke = '#64331c';
-	this.scoreText.strokeThickness = 4;
+//	text.anchor.setTo( 0.5);
+	text.font = 'Coaster';
+	text.fontSize = fontSize;
+	text.fill = gradient;
+	text.align = 'center';
+	text.stroke = '#64331c';
+	text.strokeThickness = fontSize / 5;
+
+	return text;
 }
 
 // ---------------------------------------------------------------------------------------
@@ -114,6 +139,32 @@ CScore.prototype.scoreGem = function( x, y, amount)
 	return this.game.add.tween( gemObj).to({
 		alpha: 0},
 		100 * durationMultiplier, Phaser.Easing.Linear.None, true);*/
+}
+
+// ---------------------------------------------------------------------------------------
+
+CScore.prototype.scoreMove = function()
+{
+	--this.moves;
+	this.movesText.text = _('board_moves') + ' ' + this.moves;
+}
+
+// ---------------------------------------------------------------------------------------
+
+CScore.prototype.scoreGoalGem = function( color)
+{
+	for( var i = 0; i < this.gems.length; ++i) {
+		var gem = this.gems[i];
+		if( gem.color == color) {
+			--gem.count;
+			if( gem.count > 0) {
+				gem.text.text = gem.count + 'x';
+			} else {
+				gem.text.text = '-';
+			}
+			break;
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------------------
