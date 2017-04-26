@@ -2,6 +2,16 @@
 //---         CInit.js         ---
 //--------------------------------
 
+// http://gameboxz.org/blog/posts/game-scaling-with-phaser-part-1
+// http://www.melkybee.com/blog/2015/06/14/scuba-chibi-postmortem-1-the-technical-learnings/
+
+// work with tiles              http://blog.hovercraft.ie/post/119437806421/creating-a-platformer-tilemap-for-phaser
+// CC0: user interface from     http://opengameart.org/content/free-game-gui
+// free tilemap editor          http://www.mapeditor.org/download.html
+// ICE CLIMBER CHARACTER SPRITESHEET http://www.gameart2d.com/character-spritesheet-14.html
+// CHRISTMAS GAME GUI PACK           http://www.gameart2d.com/christmas-game-gui.html
+// FREE CASUAL GAME GUI              http://www.gameart2d.com/free-game-gui.html
+
 function CInit()
 {
 	// configurable
